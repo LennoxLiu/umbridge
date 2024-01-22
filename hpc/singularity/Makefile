@@ -4,11 +4,17 @@ all: run-server
 port ?= 4242
 
 build-server:
-	# create sandbox image from definition file (to get writable overlay)
-	singularity build --remote --sandbox l2-sea.simg l2-sea.def
+	# remove old image if it exists
+	rm l2-sea.simg -rf
+	rm l2-sea.sif
 
-	# convert sandbox image to read-only image 
-	singularity build l2-sea.sif l2-sea.simg
+	# # create sandbox image from definition file (to get writable overlay)
+	# singularity build --remote --sandbox l2-sea.simg l2-sea.def
+
+	# # convert sandbox image to read-only image 
+	# singularity build l2-sea.sif l2-sea.simg
+
+	singularity build --remote l2-sea.sif l2-sea.def
 
 	# publish image to singularity hub
 	singularity push -U l2-sea.sif library://lennoxl/umbridge/l2-sea:latest
@@ -24,7 +30,7 @@ pull-server:
 	singularity pull l2-sea.sif library://lennoxl/umbridge/l2-sea:latest
 	
 	# convert image from read-only to modifiable
-	singularity build l2-sea.simg l2-sea.sif
+	singularity build --sandbox l2-sea.simg l2-sea.sif
 
 build-lb:
 	# need sudo to build from definition file, so we have to add --remote flag to build from remote
@@ -39,7 +45,7 @@ pull-lb:
 	singularity pull --name load-balancer.sif
 
 	# convert read-only image to sandbox image
-	singularity build  --writable load-balancer.simg load-balancer.sif
+	singularity build --sandbox load-balancer.simg load-balancer.sif
 
 run-lb:
 	# bind local hq config to sandbox
