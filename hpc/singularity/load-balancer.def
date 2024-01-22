@@ -20,7 +20,7 @@ From: ubuntu:latest
     mv hq /usr/local/bin
 
     # Create empty folder for config files for HyperQueue (Firstly, create an empty folder)
-    mkdir /load-balancer_singularity
+    mkdir -p /load-balancer_singularity
 
 %runscript
     # copy load balancer in container to /load-balancer_singularity (Thirdly, copy the load balancer to the working folder)

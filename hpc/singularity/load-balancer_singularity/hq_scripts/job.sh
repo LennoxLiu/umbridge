@@ -30,10 +30,13 @@ port=$(get_avaliable_port)
 export PORT=$port
 
 # Assume that server sets the port according to the environment variable 'PORT'.
-#singularity build --remote --sandbox l2-sea/ l2-sea.def && \
-singularity run --writable --pwd /  l2-sea/ $port & # Run server in background
+# Run server in background
+# create output folder if it doesn't exist
+mkdir -p ./output
+# load umbridge server from local file
+singularity run --writable --bind ./umbridge-server:/umbridge-server --bind ./output:/output --pwd /umbridge-server l2-sea.simg $port &
 
-load_balancer_dir="./load-balancer" # Directory where load balancer stores its files
+load_balancer_dir="/load-balancer_singularity" # Directory where load balancer stores its files
 
 
 host=$(hostname -I | awk '{print $1}')
