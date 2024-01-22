@@ -14,7 +14,6 @@ build-server:
 	# publish image to singularity hub
 	# singularity push -U l2-sea.sif library://lennoxl/umbridge/l2-sea:latest
 
-
 run-server:
 	# load umbridge server from local file
 	singularity run --writable --bind ./umbridge-server:/umbridge-server --pwd /  l2-sea.simg $(port)
@@ -29,19 +28,17 @@ pull-server:
 
 build-lb:
 	# need sudo to build from definition file, so we have to add --remote flag to build from remote
-	singularity build --remote --sandbox load-balancer.simg load-balancer.def
-	
-	# convert sandbox image to read-only image
-	singularity build load-balancer.sif load-balancer.simg
+	singularity build --remote load-balancer.sif load-balancer.def
 
+	# publish image to singularity hub
 	sinigularity push -U load-balancer.sif library://lennoxl/umbridge/load-balancer:latest
 
 pull-lb:
-	singularity pull --name load-balancer.sif
+	singularity pull load-balancer.sif library://lennoxl/umbridge/load-balancer:latest
 
 	# convert read-only image to sandbox image
 	singularity build --sandbox load-balancer.simg load-balancer.sif
 
 run-lb:
 	# bind local hq config to sandbox
-	singularity run --bind ./hq_scripts:/ --writable --pwd / load-balancer/ $(port)
+	singularity run --bind ./hq_scripts:/hq_scripts --writable --pwd / load-balancer/ $(port)

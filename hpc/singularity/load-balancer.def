@@ -19,6 +19,9 @@ From: ubuntu:latest
     tar -xvzf hq-v0.17.0-linux-x64.tar.gz && \
     mv hq /usr/local/bin
 
+    # Create empty folder for config files for HyperQueue
+    mkdir /hq_scripts
+
 %runscript
     # check if port is specified when running singularity
     if [ -z "$1" ]; then
