@@ -17,9 +17,9 @@ From: ubuntu:latest
     #git clone --depth 1 --branch main https://github.com/UM-Bridge/benchmarks.git && \
     #cp benchmarks/models/l2-sea/umbridge-server.py /umbridge-server.py
 
-%files
-    # Install UM-Bridge server from local
-    ./umbridge-server.py /umbridge-server.py
+# %files
+#     # Install UM-Bridge server from local
+#     ./umbridge-server.py /umbridge-server.py
 
 %runscript
     ulimit -s unlimited

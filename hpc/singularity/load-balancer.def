@@ -16,7 +16,7 @@ From: ubuntu:latest
 
     # Install HyperQueue v0.17.0
     wget https://github.com/It4innovations/hyperqueue/releases/download/v0.17.0/hq-v0.17.0-linux-x64.tar.gz && \
-    tar -xvzf hq-v0.17.0-linux-x64.tar.gz &&\
+    tar -xvzf hq-v0.17.0-linux-x64.tar.gz && \
     mv hq /usr/local/bin
 
 %runscript

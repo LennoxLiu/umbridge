@@ -4,13 +4,26 @@ all: run-server
 port ?= 4242
 
 build-server:
-	singularity build --remote --sandbox l2-sea/ l2-sea.def
+	singularity build --remote --sandbox l2-sea.simg l2-sea.def
 
 run-server:
-	singularity run --writable --pwd /  l2-sea/
+	# load umbridge server from local file
+	singularity run --writable --bind ./umbridge-server.py:/ --pwd /  l2-sea.simg
 
 build-lb:
-	singularity build --remote --sandbox load-balancer/ load-balancer.def
+	# need sudo to build from definition file, so we have to add --remote flag to build from remote
+	singularity build --remote --sandbox load-balancer.simg load-balancer.def
+	
+	# convert sandbox image to read-only image
+	singularity build load-balancer.sif load-balancer.simg
+
+	sinigularity push load-balancer.sif library://lennoxl/default/load-balancer:latest
+
+pull-lb:
+	singularity pull --name load-balancer.sif
+
+	# convert read-only image to sandbox image
+	singularity build load-balancer.simg load-balancer.sif
 
 run-lb:
 	# bind local hq config to sandbox
