@@ -8,4 +8,4 @@ run-server:
 	singularity run --writable --pwd /  l2-sea/
 
 build-lb:
-	singularity build load-balancer.sif load-balancer.def
+	singularity build --remote load-balancer.sif load-balancer.def
