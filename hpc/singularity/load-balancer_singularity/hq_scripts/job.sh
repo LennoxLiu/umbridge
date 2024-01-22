@@ -3,7 +3,7 @@
 #HQ --resource model=1
 #HQ --time-request=1m
 #HQ --time-limit=2m
-#HQ --stdout print #none
+#HQ --stdout print
 #HQ --stderr print
 
 # Launch model server, send back server URL
