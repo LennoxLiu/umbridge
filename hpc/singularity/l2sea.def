@@ -1,0 +1,17 @@
+Bootstrap: docker
+From: ubuntu:latest
+
+%post
+    apt update && \
+    DEBIAN_FRONTEND="noninteractive" apt install -y python3-pip gfortran liblapack-dev libblas-dev libomp-dev git && \
+    pip install umbridge f90nml
+    git clone https://github.com/MAORG-CNR-INM/NATO-AVT-331-L2-Sea-Benchmark.git
+    cd NATO-AVT-331-L2-Sea-Benchmark && make
+    mkdir -p /NATO-AVT-331-L2-Sea-Benchmark/examples/DTMB-5415/CPU000 && \
+    ln -s /NATO-AVT-331-L2-Sea-Benchmark/examples/DTMB-5415/CPU000 /output
+    git clone --depth 1 --branch main https://github.com/UM-Bridge/benchmarks.git && \
+    mv benchmarks/models/l2-sea/umbridge-server.py /umbridge-server.py
+
+%runscript
+    ulimit -s unlimited
+    python3 /umbridge-server.py
