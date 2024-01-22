@@ -19,7 +19,7 @@ run-server:
 	mkdir -p ./output
 
 	# load umbridge server from local file
-	singularity run --writable --bind ./umbridge-server:/umbridge-server ./output:/output --pwd /  l2-sea.simg $(port)
+	singularity run --writable --bind ./umbridge-server:/umbridge-server --bind ./output:/output --pwd /umbridge-server  l2-sea.simg $(port)
 
 pull-server:
 	#singularity pull l2-sea.sif library://lennoxl/umbridge/l2-sea:latest
