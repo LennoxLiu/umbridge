@@ -3,6 +3,10 @@ all: pull-server pull-lb run-lb
 # If port is not set, use the default value "4242"
 port ?= 4242
 
+build: build-server build-lb
+
+pull: pull-server pull-lb
+
 build-server:
 	# remove old image if it exists
 	rm l2-sea.simg -rf
