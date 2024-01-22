@@ -17,9 +17,9 @@ build-server:
 
 run-server:
 	# load umbridge server from local file
-	# singularity run --writable --bind ./umbridge-server.py:/ --pwd /  l2-sea.simg
+	singularity run --writable --bind ./umbridge-server:/umbridge-server --pwd /  l2-sea.simg $(port)
 
-	singularity run --writable-tmpfs --bind ./umbridge-server:/umbridge-server --pwd / l2-sea.sif $(port)
+	# singularity run --writable-tmpfs --bind ./umbridge-server:/umbridge-server --pwd / l2-sea.sif $(port)
 
 pull-server:
 	singularity pull l2-sea.sif library://lennoxl/umbridge/l2-sea:latest
