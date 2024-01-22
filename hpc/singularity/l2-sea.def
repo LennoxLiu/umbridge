@@ -14,7 +14,7 @@ From: ubuntu:latest
     ln -s /NATO-AVT-331-L2-Sea-Benchmark/examples/DTMB-5415/CPU000 /output
     
     # Create empty folder to load from local file at runtime
-    madir /umbridge-server
+    makir /umbridge-server
 
     # Install UM-Bridge server from repository (can't specify port)
     #git clone --depth 1 --branch main https://github.com/UM-Bridge/benchmarks.git && \
