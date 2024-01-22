@@ -1,4 +1,4 @@
-all: run-server
+all: pull-server pull-lb run-lb
 
 # If port is not set, use the default value "4242"
 port ?= 4242
@@ -15,13 +15,14 @@ build-server:
 	# singularity push -U l2-sea.sif library://lennoxl/umbridge/l2-sea:latest
 
 run-server:
-	# load umbridge server from local file
-	singularity run --writable --bind ./umbridge-server:/umbridge-server --pwd /  l2-sea.simg $(port)
+	# create output folder if it doesn't exist
+	mkdir ./output
 
-	# singularity run --writable-tmpfs --bind ./umbridge-server:/umbridge-server --pwd / l2-sea.sif $(port)
+	# load umbridge server from local file
+	singularity run --writable --bind ./umbridge-server:/umbridge-server ./output:/output --pwd /  l2-sea.simg $(port)
 
 pull-server:
-	singularity pull l2-sea.sif library://lennoxl/umbridge/l2-sea:latest
+	#singularity pull l2-sea.sif library://lennoxl/umbridge/l2-sea:latest
 	
 	# convert image from read-only to modifiable
 	singularity build --sandbox l2-sea.simg l2-sea.sif
@@ -35,10 +36,10 @@ build-lb:
 	singularity build --remote load-balancer.sif load-balancer.def
 
 	# publish image to singularity hub
-	singularity push -U load-balancer.sif library://lennoxl/umbridge/load-balancer:latest
+	# singularity push -U load-balancer.sif library://lennoxl/umbridge/load-balancer:latest
 
 pull-lb:
-	singularity pull load-balancer.sif library://lennoxl/umbridge/load-balancer:latest
+	#singularity pull load-balancer.sif library://lennoxl/umbridge/load-balancer:latest
 
 	# convert read-only image to sandbox image
 	singularity build --sandbox load-balancer.simg load-balancer.sif

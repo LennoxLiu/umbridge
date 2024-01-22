@@ -11,6 +11,11 @@ From: ubuntu:latest
     git clone https://github.com/MAORG-CNR-INM/NATO-AVT-331-L2-Sea-Benchmark.git
     cd NATO-AVT-331-L2-Sea-Benchmark && make
     mkdir -p /NATO-AVT-331-L2-Sea-Benchmark/examples/DTMB-5415/CPU000
+
+    # Create empty folder to store output
+    mkdir /output
+    # Create symbolic link to output folder
+    ln -s /NATO-AVT-331-L2-Sea-Benchmark/examples/DTMB-5415/CPU000 /output
     
     # Create empty folder to load from local file at runtime
     mkdir /umbridge-server
@@ -19,14 +24,7 @@ From: ubuntu:latest
     #git clone --depth 1 --branch main https://github.com/UM-Bridge/benchmarks.git && \
     #cp benchmarks/models/l2-sea/umbridge-server.py /umbridge-server.py
 
-# %files
-#     # Install UM-Bridge server from local
-#     ./umbridge-server.py /umbridge-server.py
-
 %runscript
-    # Create symbolic link to output folder
-    ln -s /NATO-AVT-331-L2-Sea-Benchmark/examples/DTMB-5415/CPU000 /umbridge-server/output
-
     ulimit -s unlimited
 
     # check if port is specified
