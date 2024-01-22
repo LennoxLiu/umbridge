@@ -30,7 +30,7 @@ port=$(get_avaliable_port)
 export PORT=$port
 
 # Assume that server sets the port according to the environment variable 'PORT'.
-#singularity build --remote --sandbox l2sea/ l2sea.def && \
+#singularity build --remote --sandbox l2-sea/ l2-sea.def && \
 singularity run --writable --pwd /  l2-sea/ $port & # Run server in background
 
 load_balancer_dir="./load-balancer" # Directory where load balancer stores its files

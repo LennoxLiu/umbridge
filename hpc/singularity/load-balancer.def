@@ -10,15 +10,16 @@ From: ubuntu:latest
     git clone https://github.com/UM-Bridge/umbridge.git /umbridge && \
     cd /umbridge/hpc && \
     
-    # Replace job.sh with Singularity job script
-    cp singularity/job.sh hq_scripts/job.sh && \
-    
     # Build load balancer
     make
 
 
 %runscript
-    # check if port is specified
+    # Replace configuration files of HyperQueue with local files
+    rm -rf /umbridge/hpc/hq_scripts && \
+    cp -r hq_scripts /umbridge/hpc/
+
+    # check if port is specified when running singularity
     if [ -z "$1" ]; then
         port="4242"
     else
@@ -28,6 +29,6 @@ From: ubuntu:latest
 
     # Run load balancer
     # set port by envrionment variable PORT at login node
-    ./load-balancer
+    /umbridge/hpc/load-balancer
 
 
