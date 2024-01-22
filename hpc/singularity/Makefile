@@ -4,19 +4,22 @@ all: run-server
 port ?= 4242
 
 build-server:
-	singularity build --remote --sandbox l2-sea.simg l2-sea.def
+	# singularity build --remote --sandbox l2-sea.simg l2-sea.def
 
-	# convert sandbox image to read-only image
-	singularity build l2-sea.sif l2-sea.simg
+	# # convert sandbox image to read-only image
+	# singularity build l2-sea.sif l2-sea.simg
+
+	singularity build --remote l2-sea.sif l2-sea.def
 
 	# publish image to singularity hub
 	singularity push -U l2-sea.sif library://lennoxl/umbridge/l2-sea:latest
+
 
 run-server:
 	# load umbridge server from local file
 	# singularity run --writable --bind ./umbridge-server.py:/ --pwd /  l2-sea.simg
 
-	singularity run --writable-tmpfs --bind ./umbridge-server:/umbridge-server --pwd / l2-sea.sif
+	singularity run --writable-tmpfs --bind ./umbridge-server:/umbridge-server --pwd / l2-sea.sif $(port)
 
 pull-server:
 	singularity pull l2-sea.sif library://lennoxl/umbridge/l2-sea:latest
