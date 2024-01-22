@@ -16,7 +16,7 @@ build-server:
 
 run-server:
 	# create output folder if it doesn't exist
-	mkdir ./output
+	mkdir -p ./output
 
 	# load umbridge server from local file
 	singularity run --writable --bind ./umbridge-server:/umbridge-server ./output:/output --pwd /  l2-sea.simg $(port)
