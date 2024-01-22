@@ -3,7 +3,7 @@
 #HQ --resource model=1
 #HQ --time-request=1m
 #HQ --time-limit=2m
-#HQ --stdout none
+#HQ --stdout print #none
 #HQ --stderr print
 
 # Launch model server, send back server URL
@@ -29,6 +29,8 @@ function get_avaliable_port {
 port=$(get_avaliable_port)
 export PORT=$port
 
+echo "Starting server at http://$host:$port"
+
 # Assume that server sets the port according to the environment variable 'PORT'.
 # Run server in background
 # create output folder if it doesn't exist
@@ -49,5 +51,7 @@ done
 # Write server URL to file identified by HQ job ID.
 mkdir -p "$load_balancer_dir/urls"
 echo "http://$host:$port" > "$load_balancer_dir/urls/url-$HQ_JOB_ID.txt"
+
+echo "Server started at http://$host:$port"
 
 sleep infinity # keep the job occupied

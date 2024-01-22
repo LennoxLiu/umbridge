@@ -3,9 +3,14 @@ all: pull-server pull-lb run-lb
 # If port is not set, use the default value "4242"
 port ?= 4242
 
-build: build-server build-lb
+build: build-server build-lb pull
 
 pull: pull-server pull-lb
+
+publish:
+	# push image to remote library
+	singularity push -U l2-sea.sif library://lennoxl/umbridge/l2-sea:latest
+	singularity push -U load-balancer.sif library://lennoxl/umbridge/load-balancer:latest
 
 build-server:
 	# remove old image if it exists
@@ -14,9 +19,6 @@ build-server:
 
 	# create read-only image from definition file
 	singularity build --remote l2-sea.sif l2-sea.def
-
-	# publish image to singularity hub
-	# singularity push -U l2-sea.sif library://lennoxl/umbridge/l2-sea:latest
 
 run-server:
 	# create output folder if it doesn't exist
@@ -29,7 +31,7 @@ pull-server:
 	#singularity pull l2-sea.sif library://lennoxl/umbridge/l2-sea:latest
 	
 	# convert image from read-only to modifiable
-	singularity build --sandbox l2-sea.simg l2-sea.sif
+	singularity build --sandbox ./load-balancer_singularity/l2-sea.simg l2-sea.sif
 
 build-lb:
 	# remove old image if it exists
@@ -38,9 +40,6 @@ build-lb:
 
 	# need sudo to build from definition file, so we have to add --remote flag to build from remote
 	singularity build --remote load-balancer.sif load-balancer.def
-
-	# publish image to singularity hub
-	# singularity push -U load-balancer.sif library://lennoxl/umbridge/load-balancer:latest
 
 pull-lb:
 	#singularity pull load-balancer.sif library://lennoxl/umbridge/load-balancer:latest
