@@ -2,23 +2,24 @@ Bootstrap: library
 From: ubuntu:latest
 
 %post
+    # Install dependencies
     apt update && \
-    DEBIAN_FRONTEND="noninteractive" apt install -y python3-pip gfortran liblapack-dev libblas-dev libomp-dev git && \
+    DEBIAN_FRONTEND="noninteractive" apt install -y python3-pip gfortran liblapack-dev libblas-dev libomp-dev git wget && \
     pip install umbridge f90nml
 
     # Clone UM-Bridge repository
     git clone https://github.com/UM-Bridge/umbridge.git /umbridge && \
     cd /umbridge/hpc && \
-    
     # Build load balancer
-    make
+    make build-load-balancer && \
+    cp load-balancer /
 
+    # Install HyperQueue v0.17.0
+    wget https://github.com/It4innovations/hyperqueue/releases/download/v0.17.0/hq-v0.17.0-linux-x64.tar.gz && \
+    tar -xvzf hq-v0.17.0-linux-x64.tar.gz &&\
+    mv hq /usr/local/bin
 
 %runscript
-    # Replace configuration files of HyperQueue with local files
-    rm -rf /umbridge/hpc/hq_scripts && \
-    cp -r hq_scripts /umbridge/hpc/
-
     # check if port is specified when running singularity
     if [ -z "$1" ]; then
         port="4242"
@@ -29,6 +30,6 @@ From: ubuntu:latest
 
     # Run load balancer
     # set port by envrionment variable PORT at login node
-    /umbridge/hpc/load-balancer
+    /load-balancer
 
 
