@@ -8,16 +8,11 @@ build-server:
 	rm l2-sea.simg -rf
 	rm l2-sea.sif
 
-	# # create sandbox image from definition file (to get writable overlay)
-	# singularity build --remote --sandbox l2-sea.simg l2-sea.def
-
-	# # convert sandbox image to read-only image 
-	# singularity build l2-sea.sif l2-sea.simg
-
+	# create read-only image from definition file
 	singularity build --remote l2-sea.sif l2-sea.def
 
 	# publish image to singularity hub
-	singularity push -U l2-sea.sif library://lennoxl/umbridge/l2-sea:latest
+	# singularity push -U l2-sea.sif library://lennoxl/umbridge/l2-sea:latest
 
 
 run-server:
