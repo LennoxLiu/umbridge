@@ -27,11 +27,15 @@ pull-server:
 	singularity build --sandbox l2-sea.simg l2-sea.sif
 
 build-lb:
+	# remove old image if it exists
+	rm load-balancer.simg -rf
+	rm load-balancer.sif
+
 	# need sudo to build from definition file, so we have to add --remote flag to build from remote
 	singularity build --remote load-balancer.sif load-balancer.def
 
 	# publish image to singularity hub
-	sinigularity push -U load-balancer.sif library://lennoxl/umbridge/load-balancer:latest
+	singularity push -U load-balancer.sif library://lennoxl/umbridge/load-balancer:latest
 
 pull-lb:
 	singularity pull load-balancer.sif library://lennoxl/umbridge/load-balancer:latest
@@ -40,5 +44,5 @@ pull-lb:
 	singularity build --sandbox load-balancer.simg load-balancer.sif
 
 run-lb:
-	# bind local hq config to sandbox
-	singularity run --bind ./hq_scripts:/hq_scripts --writable --pwd / load-balancer/ $(port)
+	# bind local hq config to sandbox (Secondly, bind the local folder to working folder in sandbox)
+	singularity run --bind ./load-balancer_singularity:/load-balancer_singularity --writable --pwd /load-balancer_singularity load-balancer.simg $(port)

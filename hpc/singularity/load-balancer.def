@@ -11,18 +11,21 @@ From: ubuntu:latest
     git clone https://github.com/UM-Bridge/umbridge.git /umbridge && \
     cd /umbridge/hpc && \
     # Build load balancer
-    make build-load-balancer && \
-    cp load-balancer /
+    make build-load-balancer
+    # cp load-balancer /
 
     # Install HyperQueue v0.17.0
     wget https://github.com/It4innovations/hyperqueue/releases/download/v0.17.0/hq-v0.17.0-linux-x64.tar.gz && \
     tar -xvzf hq-v0.17.0-linux-x64.tar.gz && \
     mv hq /usr/local/bin
 
-    # Create empty folder for config files for HyperQueue
-    mkdir /hq_scripts
+    # Create empty folder for config files for HyperQueue (Firstly, create an empty folder)
+    mkdir /load-balancer_singularity
 
 %runscript
+    # copy load balancer in container to /load-balancer_singularity (Thirdly, copy the load balancer to the working folder)
+    cp /umbridge/hpc/load-balancer /load-balancer_singularity/
+
     # check if port is specified when running singularity
     if [ -z "$1" ]; then
         port="4242"
@@ -31,8 +34,11 @@ From: ubuntu:latest
     fi
     export PORT=$port
 
+    # change $HOME for HyperQueue, which by default set server directory as $HOME/.hq-server
+    export HOME=/load-balancer_singularity
+
     # Run load balancer
     # set port by envrionment variable PORT at login node
-    /load-balancer
+    ./load-balancer
 
 
