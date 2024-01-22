@@ -14,13 +14,15 @@ build-server:
 
 run-server:
 	# load umbridge server from local file
-	singularity run --writable --bind ./umbridge-server.py:/ --pwd /  l2-sea.simg
+	# singularity run --writable --bind ./umbridge-server.py:/ --pwd /  l2-sea.simg
+
+	singularity run --writable-tmpfs --bind ./umbridge-server:/umbridge-server --pwd / l2-sea.sif
 
 pull-server:
 	singularity pull l2-sea.sif library://lennoxl/umbridge/l2-sea:latest
 	
 	# convert image from read-only to modifiable
-	singularity build l2-sea.simg l2-sea.sif
+	singularity build --writable l2-sea.simg l2-sea.sif
 
 build-lb:
 	# need sudo to build from definition file, so we have to add --remote flag to build from remote
@@ -35,7 +37,7 @@ pull-lb:
 	singularity pull --name load-balancer.sif
 
 	# convert read-only image to sandbox image
-	singularity build load-balancer.simg load-balancer.sif
+	singularity build  --writable load-balancer.simg load-balancer.sif
 
 run-lb:
 	# bind local hq config to sandbox

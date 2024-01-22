@@ -31,5 +31,5 @@ From: ubuntu:latest
         port=$1
     fi
 
-    python3 /umbridge-server.py $port
+    python3 /umbridge-server/umbridge-server.py $port
     
