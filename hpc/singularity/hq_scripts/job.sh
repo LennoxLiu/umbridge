@@ -38,12 +38,12 @@ echo "Building singularity sandbox at $TMPDIR/$HQ_JOB_ID/ ."
 # make a copy of sandbox to avoid overwriting
 # $TMPDIR is the temporary directory at each node on Helix
 mkdir -p $TMPDIR/$HQ_JOB_ID/
-# cp -r l2-sea.simg $TMPDIR/$HQ_JOB_ID/
+cp -r l2-sea.simg $TMPDIR/$HQ_JOB_ID/
 # need to pull the image from singularity hub first
 # singularity build --sandbox $TMPDIR/$HQ_JOB_ID/l2-sea.simg l2-sea.sif
-singularity pull $TMPDIR/$HQ_JOB_ID/l2-sea.sif library://lennoxl/umbridge/l2-sea:latest
+# singularity pull $TMPDIR/$HQ_JOB_ID/l2-sea.sif library://lennoxl/umbridge/l2-sea:latest
 # convert image from read-only to modifiable
-singularity build --sandbox $TMPDIR/$HQ_JOB_ID/l2-sea.simg $TMPDIR/$HQ_JOB_ID/l2-sea.sif
+# singularity build --sandbox $TMPDIR/$HQ_JOB_ID/l2-sea.simg $TMPDIR/$HQ_JOB_ID/l2-sea.sif
 
 echo "Finish building singularity sandbox at $TMPDIR/$HQ_JOB_ID/ ."
 
