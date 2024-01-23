@@ -97,30 +97,32 @@ std::string submitHQJob()
 {
     std::string hq_command = "hq submit hq_scripts/job.sh";
 
-    std::string job_id = getCommandOutput(hq_command);
+    std::string hq_output = getCommandOutput(hq_command);
+
+    int job_id_int = 0;
 
     // Delete the line break
-    if (!job_id.empty())
-        job_id.pop_back();
+    if (!hq_output.empty())
+        hq_output.pop_back();
 
     // Extract the job ID from the output
-    size_t colon_pos = job_id.find(":");
+    size_t colon_pos = hq_output.find(":");
     if (colon_pos != std::string::npos)
     {
-        job_id = job_id.substr(colon_pos + 1);
+        job_id_int = std::stoi(hq_output.substr(colon_pos + 1));
     }
 
-    std::cout << "Waiting for job " << job_id << " to start." << std::endl;
+    std::cout << "Waiting for job " << job_id_int << " to start." << std::endl;
 
     // Wait for the HQ Job to start
-    waitForHQJobState(job_id, "RUNNING");
+    waitForHQJobState(std::string(job_id_int), "RUNNING");
 
     // Also wait until job is running and url file is written
-    waitForFile("./urls/url-" + job_id + ".txt");
+    waitForFile("./urls/url-" + std::string(job_id_int) + ".txt");
 
-    std::cout << "Job " << job_id << " started." << std::endl;
+    std::cout << "Job " << job_id_int << " started." << std::endl;
 
-    return job_id;
+    return std::string(job_id_int);
 }
 
 class HyperQueueJob
