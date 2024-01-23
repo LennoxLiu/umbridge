@@ -39,6 +39,9 @@ build-lb-local:
 	g++ -O3 -Wno-unused-result -std=c++17 $(load-balancer-files) -o load-balancer -pthread
 
 run-lb-local:
+	# remove old output folder if it exists
+	rm job-* -rf
+
 	export PORT=$(port)
 	./load-balancer
 
@@ -57,8 +60,8 @@ pull-lb:
 	singularity build --sandbox load-balancer.simg load-balancer.sif
 
 run-lb:
-	# add execute permission to all scripts in hq_scripts folder
-	chmod +x ./load-balancer_singularity/hq_scripts/*
+	# remove old output folder if it exists
+	rm job-* -rf
 
 	# bind local hq config to sandbox (Secondly, bind the local folder to working folder in sandbox)
 	singularity run --bind ./load-balancer_singularity:/load-balancer_singularity --writable --pwd /load-balancer_singularity load-balancer.simg $(port)
