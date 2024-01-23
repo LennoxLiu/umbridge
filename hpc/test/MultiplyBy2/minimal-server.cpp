@@ -116,5 +116,6 @@ int main(int argc, char *argv[])
     
     umbridge::serveModels({&model,&model2,&model3,&model4}, hostname, port); // start server at the hostname
 
+    logMessage("Server exit: http://" + hostname + ":" + std::to_string(port));
     return 0;
 }

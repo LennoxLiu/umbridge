@@ -1,6 +1,6 @@
 all: build-server build-lb run-lb
 
-load-balancer-files = ../../LoadBalancer.cpp ../../LoadBalancer.hpp ../../lib/httplib.h ../../lib/json.hpp ../../lib/umbridge.h
+load-balancer-files = LoadBalancer.cpp LoadBalancer.hpp ../../lib/httplib.h ../../lib/json.hpp ../../lib/umbridge.h
 
 build-server:
 	g++ -O3 -w -std=c++11 minimal-server.cpp -o server -lssl -lcrypto -pthread
