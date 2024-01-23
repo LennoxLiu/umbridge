@@ -103,10 +103,17 @@ std::string submitHQJob()
     if (!job_id.empty())
         job_id.pop_back();
 
+    // Extract the job ID from the output
+    size_t colon_pos = job_id.find(":");
+    if (colon_pos != std::string::npos)
+    {
+        job_id = job_id.substr(colon_pos + 1);
+    }
+
     std::cout << "Waiting for job " << job_id << " to start." << std::endl;
-    
+
     // Wait for the HQ Job to start
-    waitForHQJobState(job_id, "RUNNING"); 
+    waitForHQJobState(job_id, "RUNNING");
 
     // Also wait until job is running and url file is written
     waitForFile("./urls/url-" + job_id + ".txt");
