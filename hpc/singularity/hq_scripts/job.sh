@@ -36,7 +36,6 @@ singularity run --writable --bind ./load-balancer_singularity/umbridge-server:/u
 
 load_balancer_dir="./"
 
-
 host=$(hostname -I | awk '{print $1}')
 
 # Wait for model server to start
