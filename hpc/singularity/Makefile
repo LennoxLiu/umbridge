@@ -31,7 +31,8 @@ pull-server:
 	#singularity pull l2-sea.sif library://lennoxl/umbridge/l2-sea:latest
 	
 	# convert image from read-only to modifiable
-	singularity build --sandbox ./load-balancer_singularity/l2-sea.simg l2-sea.sif
+	# singularity build --sandbox ./load-balancer_singularity/l2-sea.simg l2-sea.sif
+	singularity build --sandbox l2-sea.simg l2-sea.sif
 
 load-balancer-files = LoadBalancer.cpp LoadBalancer.hpp ../lib/httplib.h ../lib/json.hpp ../lib/umbridge.h
 
