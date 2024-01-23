@@ -34,23 +34,23 @@ host=$(hostname -I | awk '{print $1}')
 # create output folder if it doesn't exist
 mkdir -p ./output
 
-echo "Building singularity sandbox at $TMPDIR/$HQ_JOB_ID/ ."
+echo "Building singularity sandbox at ./tmpdir/$HQ_JOB_ID/ ."
 # make a copy of sandbox to avoid overwriting
 # $TMPDIR is the temporary directory at each node on Helix
-mkdir -p $TMPDIR/$HQ_JOB_ID/
-rm -rf $TMPDIR/$HQ_JOB_ID/*
-cp -r l2-sea.simg $TMPDIR/$HQ_JOB_ID/
+mkdir -p ./tmpdir/$HQ_JOB_ID/
+rm -rf ./tmpdir/$HQ_JOB_ID/*
+cp -r l2-sea.simg ./tmpdir/$HQ_JOB_ID/
 # need to pull the image from singularity hub first
 # singularity build --sandbox $TMPDIR/$HQ_JOB_ID/l2-sea.simg l2-sea.sif
 # singularity pull $TMPDIR/$HQ_JOB_ID/l2-sea.sif library://lennoxl/umbridge/l2-sea:latest
 # convert image from read-only to modifiable
 # singularity build --sandbox $TMPDIR/$HQ_JOB_ID/l2-sea.simg $TMPDIR/$HQ_JOB_ID/l2-sea.sif
 
-echo "Finish building singularity sandbox at $TMPDIR/$HQ_JOB_ID/ ."
+echo "Finish building singularity sandbox at ./tmpdir/$HQ_JOB_ID/ ."
 
 echo "Starting singularity server at http://$host:$port"
 # load umbridge server from local file
-singularity run --writable --bind ./load-balancer_singularity/umbridge-server:/umbridge-server --bind ./output:/output --pwd /umbridge-server $TMPDIR/$HQ_JOB_ID/l2-sea.simg $port &
+singularity run --writable --bind ./load-balancer_singularity/umbridge-server:/umbridge-server --bind ./output:/output --pwd /umbridge-server ./tmpdir/$HQ_JOB_ID/l2-sea.simg $port &
 
 load_balancer_dir="./"
 
