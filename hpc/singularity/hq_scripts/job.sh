@@ -1,8 +1,8 @@
 #! /bin/bash
 
 #HQ --resource model=1
-#HQ --time-request=1m
-#HQ --time-limit=2m
+#HQ --time-request=2m
+#HQ --time-limit=10m
 
 # Launch model server, send back server URL
 # and wait to ensure that HQ won't schedule any more jobs to this allocation.
