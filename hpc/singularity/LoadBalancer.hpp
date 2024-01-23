@@ -115,14 +115,14 @@ std::string submitHQJob()
     std::cout << "Waiting for job " << job_id_int << " to start." << std::endl;
 
     // Wait for the HQ Job to start
-    waitForHQJobState(std::string(job_id_int), "RUNNING");
+    waitForHQJobState(std::to_string(job_id_int), "RUNNING");
 
     // Also wait until job is running and url file is written
-    waitForFile("./urls/url-" + std::string(job_id_int) + ".txt");
+    waitForFile("./urls/url-" + std::to_string(job_id_int) + ".txt");
 
     std::cout << "Job " << job_id_int << " started." << std::endl;
 
-    return std::string(job_id_int);
+    return std::to_string(job_id_int);
 }
 
 class HyperQueueJob
