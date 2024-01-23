@@ -38,6 +38,7 @@ echo "Building singularity sandbox at ./tmpdir/$HQ_JOB_ID/ ."
 # make a copy of sandbox to avoid overwriting
 mkdir -p ./tmpdir/$HQ_JOB_ID/
 rm -rf ./tmpdir/$HQ_JOB_ID/*
+mkdir -p ./tmpdir/$HQ_JOB_ID/output
 cp -r l2-sea.simg ./tmpdir/$HQ_JOB_ID/
 
 echo "Finish building singularity sandbox at ./tmpdir/$HQ_JOB_ID/ ."
