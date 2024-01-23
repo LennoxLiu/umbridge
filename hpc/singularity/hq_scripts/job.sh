@@ -31,8 +31,16 @@ export PORT=$port
 # Run server in background
 # create output folder if it doesn't exist
 mkdir -p ./output
+
+# make a copy of sandbox to avoid overwriting
+# $TMPDIR is a temporary directory at each node on Helix
+# cp -r l2-sea.simg $TMPDIR/
+
+# need to pull the image from singularity hub first
+singularity build --sandbox $TMPDIR/l2-sea.simg l2-sea.sif
+
 # load umbridge server from local file
-singularity run --writable --bind ./load-balancer_singularity/umbridge-server:/umbridge-server --bind ./output:/output --pwd /umbridge-server l2-sea.simg $port &
+singularity run --writable --bind ./load-balancer_singularity/umbridge-server:/umbridge-server --bind ./output:/output --pwd /umbridge-server $TMPDIR/l2-sea.simg $port &
 
 load_balancer_dir="./"
 
