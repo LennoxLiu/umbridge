@@ -13,6 +13,7 @@ do
    if [ "$(curl -s http://localhost:4242/Evaluate -X POST -d '{"name": "forward", "input": [[100.0]]}')" == '{"output":[[200.0]]}' ]; then 
        echo -n "y" 
    else 
+       echo $(curl -s http://localhost:4242/Evaluate -X POST -d '{"name": "forward", "input": [[100.0]]}')
        echo -n "n" 
        #echo "Error: curl output does not equal expected output" 
    fi & 
