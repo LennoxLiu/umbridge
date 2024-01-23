@@ -15,7 +15,7 @@ From: ubuntu:latest
     # Create empty folder to store output
     mkdir /output
     # Create symbolic link to output folder
-    ln -s /NATO-AVT-331-L2-Sea-Benchmark/examples/DTMB-5415/CPU000 /output
+    # ln -s /NATO-AVT-331-L2-Sea-Benchmark/examples/DTMB-5415/CPU000 /output
     
     # Create empty folder to load from local file at runtime
     mkdir /umbridge-server
@@ -35,4 +35,6 @@ From: ubuntu:latest
     fi
 
     python3 /umbridge-server/umbridge-server.py $port
+
+    cp /NATO-AVT-331-L2-Sea-Benchmark/examples/DTMB-5415/CPU000 /output
     
