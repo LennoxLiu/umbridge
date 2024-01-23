@@ -32,13 +32,12 @@ export PORT=$port
 # create output folder if it doesn't exist
 mkdir -p ./output
 
+echo "Building singularity sandbox at $TMPDIR ."
 # make a copy of sandbox to avoid overwriting
 # $TMPDIR is the temporary directory at each node on Helix
-# cp -r l2-sea.simg $TMPDIR/
-
-echo "Building singularity sandbox at $TMPDIR ."
+cp -r l2-sea.simg $TMPDIR/
 # need to pull the image from singularity hub first
-singularity build --sandbox $TMPDIR/l2-sea.simg l2-sea.sif
+# singularity build --sandbox $TMPDIR/l2-sea.simg l2-sea.sif
 echo "Finish building singularity sandbox at $TMPDIR ."
 
 echo "Starting singularity server at http://$host:$port"
