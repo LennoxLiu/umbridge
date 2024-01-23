@@ -33,6 +33,15 @@ pull-server:
 	# convert image from read-only to modifiable
 	singularity build --sandbox ./load-balancer_singularity/l2-sea.simg l2-sea.sif
 
+load-balancer-files = ../../LoadBalancer.cpp ../../LoadBalancer.hpp ../../lib/httplib.h ../../lib/json.hpp ../../lib/umbridge.h
+
+build-lb-local:
+	g++ -O3 -Wno-unused-result -std=c++17 $(load-balancer-files) -o load-balancer -pthread
+
+run-local:
+	export PORT=$(port)
+	./load-balancer
+
 build-lb:
 	# remove old image if it exists
 	rm load-balancer.simg -rf
