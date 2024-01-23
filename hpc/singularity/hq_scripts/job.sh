@@ -33,12 +33,15 @@ export PORT=$port
 mkdir -p ./output
 
 # make a copy of sandbox to avoid overwriting
-# $TMPDIR is a temporary directory at each node on Helix
+# $TMPDIR is the temporary directory at each node on Helix
 # cp -r l2-sea.simg $TMPDIR/
 
+echo "Building singularity sandbox at $TMPDIR ."
 # need to pull the image from singularity hub first
 singularity build --sandbox $TMPDIR/l2-sea.simg l2-sea.sif
+echo "Finish building singularity sandbox at $TMPDIR ."
 
+echo "Starting singularity server at http://$host:$port"
 # load umbridge server from local file
 singularity run --writable --bind ./load-balancer_singularity/umbridge-server:/umbridge-server --bind ./output:/output --pwd /umbridge-server $TMPDIR/l2-sea.simg $port &
 
@@ -54,5 +57,7 @@ done
 # Write server URL to file identified by HQ job ID.
 mkdir -p "$load_balancer_dir/urls"
 echo "http://$host:$port" > "$load_balancer_dir/urls/url-$HQ_JOB_ID.txt"
+
+echo "Singularity server started at http://$host:$port"
 
 sleep infinity # keep the job occupied
