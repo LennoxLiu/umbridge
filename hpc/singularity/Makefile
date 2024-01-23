@@ -15,7 +15,7 @@ publish:
 build-server:
 	# remove old image if it exists
 	rm l2-sea.simg -rf
-	rm l2-sea.sif
+	rm l2-sea.sif -f
 
 	# create read-only image from definition file
 	singularity build --remote l2-sea.sif l2-sea.def
@@ -48,7 +48,7 @@ run-lb-local:
 build-lb:
 	# remove old image if it exists
 	rm load-balancer.simg -rf
-	rm load-balancer.sif
+	rm load-balancer.sif -f
 
 	# need sudo to build from definition file, so we have to add --remote flag to build from remote
 	singularity build --remote load-balancer.sif load-balancer.def
