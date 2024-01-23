@@ -27,26 +27,26 @@ function get_avaliable_port {
 port=$(get_avaliable_port)
 export PORT=$port
 
+host=$(hostname -I | awk '{print $1}')
+
 # Assume that server sets the port according to the environment variable 'PORT'.
 # Run server in background
 # create output folder if it doesn't exist
 mkdir -p ./output
 
-echo "Building singularity sandbox at $TMPDIR ."
+echo "Building singularity sandbox at $TMPDIR/$HQ_JOB_ID ."
 # make a copy of sandbox to avoid overwriting
 # $TMPDIR is the temporary directory at each node on Helix
-cp -r l2-sea.simg $TMPDIR/
+cp -r l2-sea.simg $TMPDIR/$HQ_JOB_ID
 # need to pull the image from singularity hub first
 # singularity build --sandbox $TMPDIR/l2-sea.simg l2-sea.sif
-echo "Finish building singularity sandbox at $TMPDIR ."
+echo "Finish building singularity sandbox at $TMPDIR/$HQ_JOB_ID ."
 
 echo "Starting singularity server at http://$host:$port"
 # load umbridge server from local file
-singularity run --writable --bind ./load-balancer_singularity/umbridge-server:/umbridge-server --bind ./output:/output --pwd /umbridge-server $TMPDIR/l2-sea.simg $port &
+singularity run --writable --bind ./load-balancer_singularity/umbridge-server:/umbridge-server --bind ./output:/output --pwd /umbridge-server $TMPDIR/$HQ_JOB_ID/l2-sea.simg $port &
 
 load_balancer_dir="./"
-
-host=$(hostname -I | awk '{print $1}')
 
 # Wait for model server to start
 while ! curl -s "http://$host:$port/Info" > /dev/null; do
