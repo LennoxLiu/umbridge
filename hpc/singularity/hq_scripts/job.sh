@@ -3,8 +3,6 @@
 #HQ --resource model=1
 #HQ --time-request=1m
 #HQ --time-limit=2m
-#HQ --stdout none
-#HQ --stderr none
 
 # Launch model server, send back server URL
 # and wait to ensure that HQ won't schedule any more jobs to this allocation.
@@ -30,9 +28,13 @@ port=$(get_avaliable_port)
 export PORT=$port
 
 # Assume that server sets the port according to the environment variable 'PORT'.
-/your/model/server/call & # CHANGE ME!
+# Run server in background
+# create output folder if it doesn't exist
+mkdir -p ./output
+# load umbridge server from local file
+singularity run --writable --bind ./umbridge-server:/umbridge-server --bind ./output:/output --pwd /umbridge-server l2-sea.simg $port &
 
-load_balancer_dir="/load/balancer/directory" # CHANGE ME!
+load_balancer_dir="./"
 
 
 host=$(hostname -I | awk '{print $1}')
