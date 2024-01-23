@@ -38,7 +38,7 @@ load-balancer-files = ../LoadBalancer.cpp ../LoadBalancer.hpp ../lib/httplib.h .
 build-lb-local:
 	g++ -O3 -Wno-unused-result -std=c++17 $(load-balancer-files) -o load-balancer -pthread
 
-run-local:
+run-lb-local:
 	export PORT=$(port)
 	./load-balancer
 
