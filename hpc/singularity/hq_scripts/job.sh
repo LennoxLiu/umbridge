@@ -32,7 +32,7 @@ export PORT=$port
 # create output folder if it doesn't exist
 mkdir -p ./output
 # load umbridge server from local file
-singularity run --writable --bind ./umbridge-server:/umbridge-server --bind ./output:/output --pwd /umbridge-server l2-sea.simg $port &
+singularity run --writable --bind ./load-balancer_singularity/umbridge-server:/umbridge-server --bind ./output:/output --pwd /umbridge-server l2-sea.simg $port &
 
 load_balancer_dir="./"
 
