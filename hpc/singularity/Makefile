@@ -42,7 +42,7 @@ run-lb-local:
 	# remove old output folder if it exists
 	rm job-* -rf
 
-	export PORT = $(port) && \
+	export PORT=$(port) && \
 	./load-balancer
 
 build-lb:
