@@ -34,7 +34,7 @@ From: ubuntu:latest
         port=$1
     fi
 
-    python3 /umbridge-server/umbridge-server.py $port
+    python3 /umbridge-server/umbridge-server.py $port && \
 
     cp /NATO-AVT-331-L2-Sea-Benchmark/examples/DTMB-5415/CPU000/* /output/
     
