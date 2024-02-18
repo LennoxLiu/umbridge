@@ -49,7 +49,7 @@ bool waitForFile(const std::string &filename, const std::string &job_id)
         // Don't wait if there is an error or the job is ended
         if (job_status == "FINISHED" || job_status == "FAILED" || job_status == "CANCELED")
         {
-            std::cerr << "Wait for file failed. Beacuse job status is : " << job_status << std::endl;
+            std::cerr << "Wait for file failed. Beacuse job "<< job_id <<" status is : " << job_status << std::endl;
             return false;
         }
     }
