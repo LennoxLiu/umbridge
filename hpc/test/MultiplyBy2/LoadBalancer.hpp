@@ -33,26 +33,10 @@ std::string getCommandOutput(const std::string command)
 // wait until file is created
 bool waitForFile(const std::string &filename)
 {
-    const std::string command = "hq job info " + job_id + " | grep State | awk '{print $4}'";
-    std::string job_status;
-
     // Check if the file exists
     while (!std::filesystem::exists(filename)) {
         // If the file doesn't exist, wait for a certain period
         std::this_thread::sleep_for(std::chrono::seconds(1));
-
-        job_status = getCommandOutput(command);
-
-        // Delete the line break
-        if (!job_status.empty())
-            job_status.pop_back();
-
-        // Don't wait if there is an error or the job is ended
-        if (job_status == "" || (state != "FINISHED" && job_status == "FINISHED") || job_status == "FAILED" || job_status == "CANCELED")
-        {
-            std::cerr << "Wait for file failed. Beacuse job status is : " << job_status << std::endl;
-            return false;
-        }
     }
 
     return true;
