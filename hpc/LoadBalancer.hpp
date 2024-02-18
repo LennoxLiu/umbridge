@@ -30,8 +30,7 @@ std::string getCommandOutput(const std::string command)
     return output;
 }
 
-// wait until file is created
-bool waitForFile(const std::string &filename)
+bool waitForFile(const std::string &filename, const std::string &job_id)
 {
     const std::string command = "hq job info " + job_id + " | grep State | awk '{print $4}'";
     std::string job_status;
@@ -48,7 +47,7 @@ bool waitForFile(const std::string &filename)
             job_status.pop_back();
 
         // Don't wait if there is an error or the job is ended
-        if (job_status == "" || (state != "FINISHED" && job_status == "FINISHED") || job_status == "FAILED" || job_status == "CANCELED")
+        if (job_status == "FINISHED" || job_status == "FAILED" || job_status == "CANCELED")
         {
             std::cerr << "Wait for file failed. Beacuse job status is : " << job_status << std::endl;
             return false;
@@ -125,7 +124,7 @@ std::string submitHQJob()
     waitForHQJobState(job_id, "RUNNING"); 
 
     // Also wait until job is running and url file is written
-    waitForFile("./urls/url-" + job_id + ".txt");
+    waitForFile("./urls/url-" + job_id + ".txt", job_id);
 
     std::cout << "Job " << job_id << " started." << std::endl;
 
