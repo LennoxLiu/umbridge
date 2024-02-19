@@ -19,13 +19,14 @@ function get_avaliable_port {
     while lsof -Pi :$port -t; do
         # If the port is in use, generate a new random port number
         port=$(shuf -i $MIN_PORT-$MAX_PORT -n 1)
-        
+
     done
 
     echo $port
 }
 
 port=$(get_avaliable_port)
+echo $port
 export PORT=$port && ./server &  # Assume that server sets the port according to the environment variable 'PORT'.
 
 load_balancer_dir="./"
