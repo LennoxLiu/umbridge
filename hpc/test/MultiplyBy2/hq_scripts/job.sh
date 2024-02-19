@@ -26,7 +26,7 @@ function get_avaliable_port {
 }
 
 port=$(get_avaliable_port)
-# sleep 1 # Wait for the port to be correctly assigned, otherwise it will sometimes get strange value in $port
+sleep 1 # Wait for the port to be correctly assigned, otherwise it will sometimes get strange value in $port
 
 load_balancer_dir="./"
 
