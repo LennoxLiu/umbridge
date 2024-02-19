@@ -84,11 +84,11 @@ int main(int argc, char *argv[])
 {
 
     // Read environment variables for configuration
-    char const *port_cstr = std::getenv("PORT");
+    char const *port_cstr = std::getenv("PORT_UMBRIDGE");
     int port = 0;
     if (port_cstr == NULL)
     {
-        logMessage("Environment variable PORT not set! Using port 4242 as default.");
+        logMessage("Environment variable PORT_UMBRIDGE not set! Using port 4242 as default.");
         port = 4242;
     }
     else
