@@ -27,7 +27,7 @@ function get_avaliable_port {
 
 port=$(get_avaliable_port)
 echo $port
-export PORT=$port && ./server &  # Assume that server sets the port according to the environment variable 'PORT'.
+PORT=$port ./server & # Assume that server sets the port according to the environment variable 'PORT'.
 
 load_balancer_dir="./"
 
