@@ -9,7 +9,7 @@
 
 function get_avaliable_port {
     # Define the range of ports to select from
-    MIN_PORT=1024
+    MIN_PORT=10000
     MAX_PORT=49151
 
     # Generate a random port number
