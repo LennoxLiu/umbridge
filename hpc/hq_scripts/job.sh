@@ -3,22 +3,20 @@
 #HQ --resource model=1
 #HQ --time-request=1m
 #HQ --time-limit=2m
-#HQ --stdout none
-#HQ --stderr none
 
 # Launch model server, send back server URL
 # and wait to ensure that HQ won't schedule any more jobs to this allocation.
 
 function get_avaliable_port {
     # Define the range of ports to select from
-    MIN_PORT=1024
+    MIN_PORT=60000
     MAX_PORT=65535
 
     # Generate a random port number
     port=$(shuf -i $MIN_PORT-$MAX_PORT -n 1)
 
     # Check if the port is in use
-    while lsof -Pi :$port -sTCP:LISTEN -t >/dev/null; do
+    while lsof -Pi :$port -t; do
         # If the port is in use, generate a new random port number
         port=$(shuf -i $MIN_PORT-$MAX_PORT -n 1)
     done
