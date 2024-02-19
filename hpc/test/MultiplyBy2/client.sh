@@ -4,7 +4,7 @@
 
 echo "Sending requests..." 
  
-for i in {1..100} 
+for i in {1..300} 
 do 
    # Expected output: {"output":[[200.0]]} 
    # Check if curl output equals expected output 
