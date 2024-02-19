@@ -9,8 +9,8 @@
 
 function get_avaliable_port {
     # Define the range of ports to select from
-    MIN_PORT=10240
-    MAX_PORT=10241
+    MIN_PORT=49152
+    MAX_PORT=65535
 
     # Generate a random port number
     port=$(shuf -i $MIN_PORT-$MAX_PORT -n 1)
@@ -26,7 +26,7 @@ function get_avaliable_port {
 }
 
 port=$(get_avaliable_port)
-sleep 1 # Wait for the port to be correctly assigned, otherwise it will sometimes get strange value in port
+sleep 1 # Wait for the port to be correctly assigned, otherwise it will sometimes get strange value in $port
 
 export PORT=$port && ./server & # Assume that server sets the port according to the environment variable 'PORT'.
 
