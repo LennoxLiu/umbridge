@@ -93,6 +93,7 @@ int main(int argc, char *argv[])
     }
     else
     {
+        logMessage("Environment variable PORT set to " + std::string(port_cstr) + ".");
         port = atoi(port_cstr);
     }
 
