@@ -28,13 +28,14 @@ function get_avaliable_port {
 port=$(get_avaliable_port)
 # sleep 1 # Wait for the port to be correctly assigned, otherwise it will sometimes get strange value in $port
 
+load_balancer_dir="./"
+
 # Write port to file identified by HQ job ID.
 mkdir -p "$load_balancer_dir/ports"
 echo "$port" > "$load_balancer_dir/ports/port-$HQ_JOB_ID.txt"
 
 export PORT=$port && ./server & # Assume that server sets the port according to the environment variable 'PORT'.
 
-load_balancer_dir="./"
 
 host=$(hostname -I | awk '{print $1}')
 
