@@ -34,6 +34,7 @@ port=$(get_avaliable_port)
 # sleep 1 # Wait for the port to be correctly assigned, otherwise it will sometimes get strange value in $port
 
 echo "$port" > "$load_balancer_dir/ports/$HQ_JOB_ID-2.txt"
+
 export PORT=$port && ./server & # Assume that server sets the port according to the environment variable 'PORT'.
 
 
