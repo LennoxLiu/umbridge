@@ -29,8 +29,8 @@ port=$(get_avaliable_port)
 
 load_balancer_dir="./"
 
-mkdir -p "$load_balancer_dir/ports"
-echo "$port" > "$load_balancer_dir/ports/port-$HQ_JOB_ID.txt"
+# mkdir -p "$load_balancer_dir/ports"
+# echo "$port" > "$load_balancer_dir/ports/port-$HQ_JOB_ID.txt"
 
 export PORT=$port && ./server & # Assume that server sets the port according to the environment variable 'PORT'.
 
