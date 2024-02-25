@@ -1,11 +1,11 @@
-all: pull-server pull-lb run-lb
+all: pull-server run-lb
 
 # If port is not set, use the default value "4242"
 port ?= 4242
 
-build: build-server build-lb pull
+build: build-server build-lb-local pull
 
-pull: pull-server pull-lb
+pull: pull-server
 
 publish:
 	# push image to remote library
