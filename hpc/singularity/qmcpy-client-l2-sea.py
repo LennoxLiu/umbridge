@@ -44,7 +44,8 @@ dnb2 = qp.DigitalNetB2(d)
 gauss_sobol = qp.Uniform(dnb2, lower_bound=[0.25,-6.6], upper_bound=[0.41,-5.7])
 
 integrand = UMBridgeWrapper(gauss_sobol, l2sea_fixed_design_params, config, parallel=True)
+print("Got all integrand, starting integration...")
 
-qmc_sobol_algorithm = qp.CubQMCSobolG(integrand, abs_tol=1e-1, n_init = 8, n_max = 8) #n_init=n_max=256, changed for test
+qmc_sobol_algorithm = qp.CubQMCSobolG(integrand, abs_tol=1e-1, n_init = 256, n_max = 256) # n_init must be >= 2**8
 solution,data = qmc_sobol_algorithm.integrate()
 print(data)
