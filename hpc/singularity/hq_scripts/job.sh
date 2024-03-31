@@ -34,18 +34,18 @@ host=$(hostname -I | awk '{print $1}')
 # create output folder if it doesn't exist
 mkdir -p ./output
 
-echo "Building singularity sandbox at ./tmpdir/$HQ_JOB_ID/ ."
-# make a copy of sandbox to avoid overwriting
-mkdir -p ./tmpdir/$HQ_JOB_ID/
-rm -rf ./tmpdir/$HQ_JOB_ID/*
-mkdir -p ./tmpdir/$HQ_JOB_ID/output
-cp -r l2-sea.simg ./tmpdir/$HQ_JOB_ID/
+# echo "Building singularity sandbox at ./tmpdir/$HQ_JOB_ID/ ."
+# # make a copy of sandbox to avoid overwriting
+# mkdir -p ./tmpdir/$HQ_JOB_ID/
+# rm -rf ./tmpdir/$HQ_JOB_ID/*
+# mkdir -p ./tmpdir/$HQ_JOB_ID/output
+# cp -r l2-sea.simg ./tmpdir/$HQ_JOB_ID/
 
-echo "Finish building singularity sandbox at ./tmpdir/$HQ_JOB_ID/ ."
+# echo "Finish building singularity sandbox at ./tmpdir/$HQ_JOB_ID/ ."
 
 echo "Starting singularity server at http://$host:$port"
 # load umbridge server from local file
-singularity run --writable --bind ./load-balancer_singularity/umbridge-server:/umbridge-server --bind ./tmpdir/$HQ_JOB_ID/output:/output --pwd /umbridge-server ./tmpdir/$HQ_JOB_ID/l2-sea.simg $port &
+singularity run --writable-tmpfs --bind ./load-balancer_singularity/umbridge-server:/umbridge-server --bind ./tmpdir/$HQ_JOB_ID/output:/output --pwd /umbridge-server model-l2-sea-singularity_latest.sif  $port &
 
 load_balancer_dir="./"
 

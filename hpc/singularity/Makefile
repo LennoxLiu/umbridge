@@ -1,4 +1,4 @@
-all: pull-server run-lb
+all: run-lb-local
 
 # If port is not set, use the default value "4242"
 port ?= 4242
@@ -25,14 +25,16 @@ run-server:
 	mkdir -p ./load-balancer_singularity/output
 
 	# load umbridge server from local file
-	singularity run --writable --bind ./load-balancer_singularity/umbridge-server:/umbridge-server --bind ./load-balancer_singularity/output:/output --pwd /umbridge-server  l2-sea.simg $(port)
+	singularity run --writable-tmpfs model-l2-sea-singularity_latest.sif --bind ./load-balancer_singularity/umbridge-server:/umbridge-server --bind ./load-balancer_singularity/output:/output --pwd /umbridge-server $(port)
+	# singularity run --writable --bind ./load-balancer_singularity/umbridge-server:/umbridge-server --bind ./load-balancer_singularity/output:/output --pwd /umbridge-server  l2-sea.simg $(port)
 
 pull-server:
-	#singularity pull l2-sea.sif library://lennoxl/umbridge/l2-sea:latest
-	
+	# singularity pull l2-sea.sif library://lennoxl/umbridge/l2-sea:latest
+	singularity pull docker://linusseelinger/model-l2-sea-singularity
+
 	# convert image from read-only to modifiable
 	# singularity build --sandbox ./load-balancer_singularity/l2-sea.simg l2-sea.sif
-	singularity build --sandbox l2-sea.simg l2-sea.sif
+	# singularity build --sandbox l2-sea.simg l2-sea.sif
 
 load-balancer-files = LoadBalancer.cpp LoadBalancer.hpp ../lib/httplib.h ../lib/json.hpp ../lib/umbridge.h
 
