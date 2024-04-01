@@ -17,12 +17,11 @@ From: ubuntu:latest
     
     # Create empty folder to load umbridge from local file at runtime
     mkdir /umbridge-server
-
+%runscript
     # Not sure if this is necessary
-    chmod -R 777 /NATO-AVT-331-L2-Sea-Benchmark/
+    chmod -R 777 /NATO-AVT-331-L2-Sea-Benchmark
     chmod -R 777 /output
 
-%runscript
     # Create symbolic link to output folder
     ln -s /NATO-AVT-331-L2-Sea-Benchmark/examples/DTMB-5415/CPU000 /output
 
