@@ -15,7 +15,7 @@ From: ubuntu:latest
     # Create empty folder to store output
     mkdir /output
     # Create symbolic link to output folder
-    # ln -s /NATO-AVT-331-L2-Sea-Benchmark/examples/DTMB-5415/CPU000 /output
+    ln -s /NATO-AVT-331-L2-Sea-Benchmark/examples/DTMB-5415/CPU000 /output
     
     # Create empty folder to load from local file at runtime
     mkdir /umbridge-server
@@ -24,7 +24,13 @@ From: ubuntu:latest
     #git clone --depth 1 --branch main https://github.com/UM-Bridge/benchmarks.git && \
     #cp benchmarks/models/l2-sea/umbridge-server.py /umbridge-server.py
 
+    # Not sure if this is necessary
+    chmod -R 777 /NATO-AVT-331-L2-Sea-Benchmark/
+    chmod -R 777 /output
+
 %runscript
+    ENV OMP_NUM_THREADS=1 # not sure if this is necessary
+
     ulimit -s unlimited
 
     # check if port is specified
@@ -36,5 +42,5 @@ From: ubuntu:latest
 
     python3 /umbridge-server/umbridge-server.py $port && \
     
-    cp /NATO-AVT-331-L2-Sea-Benchmark/examples/DTMB-5415/CPU000/* /output/
+    # cp /NATO-AVT-331-L2-Sea-Benchmark/examples/DTMB-5415/CPU000/* /output/
     
