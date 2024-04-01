@@ -19,10 +19,10 @@ From: ubuntu:latest
     mkdir /umbridge-server
 
     # Seemingly doesn't work in singularity
-    chmod -R 777 /NATO-AVT-331-L2-Sea-Benchmark
-    chmod -R 777 /output
+    # chmod -R 777 /NATO-AVT-331-L2-Sea-Benchmark
+    # chmod -R 777 /output
 
-    # # Create symbolic link to output folder
+    # Create symbolic link to output folder
     ln -s /NATO-AVT-331-L2-Sea-Benchmark/examples/DTMB-5415/CPU000 /output
 %runscript
     ulimit -s unlimited
