@@ -25,8 +25,8 @@ run-server:
 	mkdir -p ./load-balancer_singularity/output
 
 	# load umbridge server from local file
-	singularity run --writable-tmpfs model-l2-sea-singularity_latest.sif --bind ./load-balancer_singularity/umbridge-server:/umbridge-server --bind ./load-balancer_singularity/output:/output --pwd /umbridge-server $(port)
-	# singularity run --writable --bind ./load-balancer_singularity/umbridge-server:/umbridge-server --bind ./load-balancer_singularity/output:/output --pwd /umbridge-server  l2-sea.simg $(port)
+	# singularity run --writable-tmpfs model-l2-sea-singularity_latest.sif --bind ./load-balancer_singularity/umbridge-server:/umbridge-server --bind ./load-balancer_singularity/output:/output --pwd /umbridge-server $(port)
+	singularity run --writable --bind ./load-balancer_singularity/umbridge-server:/umbridge-server --bind ./load-balancer_singularity/output:/output --pwd /umbridge-server  l2-sea.simg $(port)
 
 pull-server:
 	# singularity pull l2-sea.sif library://lennoxl/umbridge/l2-sea:latest
