@@ -28,9 +28,8 @@ From: ubuntu:latest
     ulimit -s unlimited
 
     # check if port is specified
-    if [ -z "$1" ]; then
-        port="4242"
-    else
+    port="4242"
+    if ! [ -z "$1" ]; then
         port=$1
     fi
 
