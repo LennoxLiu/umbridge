@@ -20,7 +20,7 @@ build-server:
 	# create read-only image from definition file
 	singularity build --remote l2-sea.sif l2-sea.def
 
-run-server:
+run-server: recreate-overlay
 	# remove old output folder if it exists
 	rm ./load-balancer_singularity/output -rf
 	# create output folder if it doesn't exist
@@ -37,7 +37,7 @@ recreate-overlay:
 
 	mkdir -p overlay/upper
 	mkdir -p overlay/work
-	dd if=/dev/zero of=overlay.img bs=1M count=500 && \
+	dd if=/dev/zero of=overlay.img bs=1M count=100 && \
 		mkfs.ext3 -d overlay overlay.img
 
 pull-server:
