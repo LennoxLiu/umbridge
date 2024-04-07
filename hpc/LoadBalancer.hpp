@@ -108,6 +108,9 @@ bool waitForHQJobState(const std::string &job_id, const std::string &state = "CO
     return true;
 }
 
+std::mutex job_submission_mutex;
+int hq_submit_delay_ms = 0;
+
 std::string submitHQJob()
 {
     std::string hq_command = "hq submit --output-mode=quiet hq_scripts/job.sh";
