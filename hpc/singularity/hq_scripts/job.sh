@@ -1,6 +1,7 @@
 #! /bin/bash
 
 #HQ --resource model=1
+#HQ --cpus=1
 #HQ --time-request=2m
 #HQ --time-limit=10m
 
@@ -48,10 +49,11 @@ singularity run --overlay ./tmpdir/$HQ_JOB_ID/overlay.img --bind ./load-balancer
 
 load_balancer_dir="./"
 
-# Wait for model server to start
+echo "Waiting for model server to respond at $host:$port..."
 while ! curl -s "http://$host:$port/Info" > /dev/null; do
     sleep 1
 done
+echo "Model server responded"
 
 # Write server URL to file identified by HQ job ID.
 mkdir -p "$load_balancer_dir/urls"
