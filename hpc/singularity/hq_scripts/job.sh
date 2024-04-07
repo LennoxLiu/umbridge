@@ -9,8 +9,8 @@
 
 function get_avaliable_port {
     # Define the range of ports to select from
-    MIN_PORT=1024
-    MAX_PORT=65535
+    MIN_PORT=600000
+    MAX_PORT=655350
 
     # Generate a random port number
     port=$(shuf -i $MIN_PORT-$MAX_PORT -n 1)
