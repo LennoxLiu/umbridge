@@ -21,13 +21,15 @@ build-server:
 	singularity build --remote l2-sea.sif l2-sea.def
 
 run-server:
+	# remove old output folder if it exists
+	rm ./load-balancer_singularity/output -rf
 	# create output folder if it doesn't exist
 	mkdir -p ./load-balancer_singularity/output
 
 	# load umbridge server from local file
 	# singularity run --writable-tmpfs model-l2-sea-singularity_latest.sif --bind ./load-balancer_singularity/umbridge-server:/umbridge-server --bind ./load-balancer_singularity/output:/output --pwd /umbridge-server $(port)
-	singularity run --writable --bind ./load-balancer_singularity/umbridge-server:/umbridge-server --bind ./load-balancer_singularity/output:/output --pwd /umbridge-server l2-sea.simg $(port)
-
+	# singularity run --writable --bind ./load-balancer_singularity/umbridge-server:/umbridge-server --bind ./load-balancer_singularity/output:/output --pwd /umbridge-server l2-sea.simg $(port)
+	singularity run --overlay overlay.img --bind ./load-balancer_singularity/umbridge-server:/umbridge-server --bind ./load-balancer_singularity/output:/output --pwd /umbridge-server l2-sea.sif $(port)
 pull-server:
 	# singularity pull l2-sea.sif library://lennoxl/umbridge/l2-sea:latest
 	singularity pull docker://linusseelinger/model-l2-sea-singularity
