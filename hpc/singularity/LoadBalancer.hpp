@@ -60,7 +60,7 @@ int hq_submit_delay_ms = 0;
 class HyperQueueJob
 {
 public:
-    static std::atomic<int32_t> job_count = 0;
+    static std::atomic<int32_t> job_count;
     HyperQueueJob(std::string model_name, bool start_client = true,
                   bool force_default_submission_script = false)
     {
