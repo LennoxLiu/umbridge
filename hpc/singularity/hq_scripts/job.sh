@@ -44,7 +44,7 @@ cp -r overlay.img ./tmpdir/$HQ_JOB_ID/
 
 echo "Starting singularity server at http://$host:$port"
 # load umbridge server from local file
-singularity run --overlay ./tmpdir/$HQ_JOB_ID/overlay.img --bind ./load-balancer_singularity/umbridge-server:/umbridge-server --bind ./tmpdir/$HQ_JOB_ID/output:/output --pwd /umbridge-server model-l2-sea-singularity_latest.sif  $port &
+singularity run --overlay ./tmpdir/$HQ_JOB_ID/overlay.img --bind ./load-balancer_singularity/umbridge-server:/umbridge-server --bind ./tmpdir/$HQ_JOB_ID/output:/output --pwd /umbridge-server l2-sea.sif $port &
 
 load_balancer_dir="./"
 

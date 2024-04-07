@@ -20,7 +20,7 @@ build-server:
 	# create read-only image from definition file
 	singularity build --remote l2-sea.sif l2-sea.def
 
-run-server: recreate-overlay
+run-server:
 	# remove old output folder if it exists
 	rm ./load-balancer_singularity/output -rf
 	# create output folder if it doesn't exist
