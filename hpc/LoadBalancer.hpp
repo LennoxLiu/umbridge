@@ -8,6 +8,7 @@
 #include <memory>
 #include <filesystem>
 #include "../lib/umbridge.h"
+#include <unistd.h>
 
 // run and get the result of command
 std::string getCommandOutput(const std::string command)
@@ -111,29 +112,6 @@ bool waitForHQJobState(const std::string &job_id, const std::string &state = "CO
 std::mutex job_submission_mutex;
 int hq_submit_delay_ms = 0;
 
-std::string submitHQJob()
-{
-    std::string hq_command = "hq submit --output-mode=quiet hq_scripts/job.sh";
-
-    std::string job_id = getCommandOutput(hq_command);
-
-    // Delete the line break
-    if (!job_id.empty())
-        job_id.pop_back();
-
-    std::cout << "Waiting for job " << job_id << " to start." << std::endl;
-    
-    // Wait for the HQ Job to start
-    waitForHQJobState(job_id, "RUNNING"); 
-
-    // Also wait until job is running and url file is written
-    waitForFile("./urls/url-" + job_id + ".txt", job_id);
-
-    std::cout << "Job " << job_id << " started." << std::endl;
-
-    return job_id;
-}
-
 class HyperQueueJob
 {
 public:
@@ -210,7 +188,7 @@ private:
         waitForHQJobState(job_id, "RUNNING");
 
         // Also wait until job is running and url file is written
-        waitForFile("./urls/url-" + job_id + ".txt");
+        waitForFile("./urls/url-" + job_id + ".txt", job_id);
 
         std::cout << "Job " << job_id << " started." << std::endl;
 
