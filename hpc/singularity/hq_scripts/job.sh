@@ -25,8 +25,10 @@ function get_avaliable_port {
     echo $port
 }
 
+echo "Start getting port for job $HQ_JOB_ID"
 port=$(get_avaliable_port)
 export PORT=$port
+echo "Got port $port for job $HQ_JOB_ID"
 
 host=$(hostname -I | awk '{print $1}')
 
