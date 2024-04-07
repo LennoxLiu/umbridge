@@ -24,31 +24,32 @@ void clear_url(std::string directory) {
     }
 }
 
-std::string get_hostname() {
-    char hostname[HOST_NAME_MAX];
-    gethostname(hostname, HOST_NAME_MAX);
-    return std::string(hostname);
-}
+void launch_hq_with_alloc_queue() {
+    std::system("hq server stop &> /dev/null");
 
-const std::vector<std::string> get_model_names() {
-    // Setup HyperQueue server
     std::system("hq server start &");
     sleep(1); // Workaround: give the HQ server enough time to start.
 
-    // Create allocation queue
+    // Create HQ allocation queue
     std::system("hq_scripts/allocation_queue.sh");
+}
 
-    HyperQueueJob hq_job("", false); // Don't start a client.
+const std::vector<std::string> get_model_names() {
+    // Don't start a client, always use the default job submission script.
+    HyperQueueJob hq_job("", false, true); 
 
     return umbridge::SupportedModels(hq_job.server_url);
 }
+
+std::atomic<int32_t> HyperQueueJob::job_count = 0;
 
 int main(int argc, char *argv[])
 {
     create_directory_if_not_existing("urls");
     create_directory_if_not_existing("sub-jobs");
     clear_url("urls");
-    std::system("hq server stop &> /dev/null");
+
+    launch_hq_with_alloc_queue();
 
     // Read environment variables for configuration
     char const *port_cstr = std::getenv("PORT");
@@ -62,6 +63,13 @@ int main(int argc, char *argv[])
     {
         port = atoi(port_cstr);
     }
+
+    char const *delay_cstr = std::getenv("HQ_SUBMIT_DELAY_MS");
+    if (delay_cstr != NULL)
+    {
+        hq_submit_delay_ms = atoi(delay_cstr);
+    }
+    std::cout << "HQ_SUBMIT_DELAY_MS set to " << hq_submit_delay_ms << std::endl;
 
     // Initialize load balancer for each available model on the model server.
     const std::vector<std::string> model_names = get_model_names();
@@ -78,7 +86,6 @@ int main(int argc, char *argv[])
     std::transform(LB_vector.begin(), LB_vector.end(), LB_ptr_vector.begin(),
                    [](LoadBalancer& obj) { return &obj; });
 
-    std::cout << "Load balancer running on host " << get_hostname()
-              << " and bound to 0.0.0.0:" << port << std::endl;
-    umbridge::serveModels(LB_ptr_vector, "0.0.0.0", port, false);
+    std::cout << "Load balancer running port" << port << std::endl;
+    umbridge::serveModels(LB_ptr_vector, "0.0.0.0", port, true, false);
 }
