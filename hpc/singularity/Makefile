@@ -30,6 +30,16 @@ run-server:
 	# singularity run --writable-tmpfs model-l2-sea-singularity_latest.sif --bind ./load-balancer_singularity/umbridge-server:/umbridge-server --bind ./load-balancer_singularity/output:/output --pwd /umbridge-server $(port)
 	# singularity run --writable --bind ./load-balancer_singularity/umbridge-server:/umbridge-server --bind ./load-balancer_singularity/output:/output --pwd /umbridge-server l2-sea.simg $(port)
 	singularity run --overlay overlay.img --bind ./load-balancer_singularity/umbridge-server:/umbridge-server --bind ./load-balancer_singularity/output:/output --pwd /umbridge-server l2-sea.sif $(port)
+
+recreate-overlay:
+	# remove old overlay if it exists
+	rm overlay.img -f
+
+	mkdir -p overlay/upper
+	mkdir -p overlay/work
+	dd if=/dev/zero of=overlay.img bs=1M count=500 && \
+		mkfs.ext3 -d overlay overlay.img
+
 pull-server:
 	# singularity pull l2-sea.sif library://lennoxl/umbridge/l2-sea:latest
 	singularity pull docker://linusseelinger/model-l2-sea-singularity
