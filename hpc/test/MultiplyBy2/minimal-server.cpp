@@ -5,6 +5,20 @@
 
 #include "../../../lib/umbridge.h"
 
+void logMessage(const std::string& message) {
+    // Get the current time point
+    auto currentTime = std::chrono::system_clock::now();
+    
+    // Convert the time point to a time_t object
+    std::time_t currentTime_t = std::chrono::system_clock::to_time_t(currentTime);
+
+    // Convert the time_t to a struct tm in local time
+    std::tm* localTime = std::localtime(&currentTime_t);
+
+    // Format the timestamp
+    std::cout << "[" << std::put_time(localTime, "%Y-%m-%d %H:%M:%S") << "] server: " << message << std::endl;
+}
+
 class ExampleModel : public umbridge::Model
 {
 public:
@@ -51,6 +65,7 @@ std::string getCommandOutput(const std::string command)
     if (!pipe)
     {
         std::cerr << "Failed to execute the command: " + command << std::endl;
+        logMessage("Failed to execute the command: " + command);
         return "";
     }
 
@@ -73,11 +88,12 @@ int main(int argc, char *argv[])
     int port = 0;
     if (port_cstr == NULL)
     {
-        std::cout << "Environment variable PORT not set! Using port 4242 as default." << std::endl;
+        logMessage("Environment variable PORT not set! Using port 4242 as default.");
         port = 4242;
     }
     else
     {
+        logMessage("Environment variable PORT set to " + std::string(port_cstr) + ".");
         port = atoi(port_cstr);
     }
 
@@ -87,7 +103,7 @@ int main(int argc, char *argv[])
     {
         test_delay = atoi(delay_cstr);
     }
-    std::cout << "Evaluation delay set to " << test_delay << " ms." << std::endl;
+    logMessage("Evaluation delay set to " + std::to_string(test_delay) + " ms.");
 
     // Set up and serve model
     ExampleModel model(test_delay);
@@ -96,22 +112,11 @@ int main(int argc, char *argv[])
     ExampleModel model4(5, "outward");
 
     std::string hostname = "0.0.0.0";
-    /*
-    if (argc == 2)
-    {
-        hostname = argv[1];
-    }
-    else
-    {
-        hostname = getCommandOutput("hostname"); // get the hostname of node
-        // delete the line break
-        if (!hostname.empty())
-            hostname.pop_back();
-    }
-    */
-    std::cout << "Hosting server at : "
-              << "http://" << hostname << ":" << port << std::endl;
+  
+    logMessage("Hosting server at : http://" + hostname + ":" + std::to_string(port));
+    
     umbridge::serveModels({&model,&model2,&model3,&model4}, hostname, port); // start server at the hostname
 
+    logMessage("Server exit: http://" + hostname + ":" + std::to_string(port));
     return 0;
 }

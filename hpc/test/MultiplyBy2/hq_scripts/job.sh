@@ -1,17 +1,18 @@
 #! /bin/bash
 
-#HQ --cpus=1
+#HQ --resource model=1
 #HQ --time-request=1m
 #HQ --time-limit=2m
-#HQ --stdout none
-#HQ --stderr none
 
 # Launch model server, send back server URL
 # and wait to ensure that HQ won't schedule any more jobs to this allocation.
+load_balancer_dir="./"
+# Write port to file identified by HQ job ID.
+mkdir -p "$load_balancer_dir/ports"
 
 function get_avaliable_port {
     # Define the range of ports to select from
-    MIN_PORT=60000
+    MIN_PORT=49152
     MAX_PORT=65535
 
     # Generate a random port number
@@ -21,27 +22,28 @@ function get_avaliable_port {
     while lsof -Pi :$port -t; do
         # If the port is in use, generate a new random port number
         port=$(shuf -i $MIN_PORT-$MAX_PORT -n 1)
+
     done
 
+    echo "$port" > "$load_balancer_dir/ports/$HQ_JOB_ID-1.txt"
     echo $port
 }
 
+
 port=$(get_avaliable_port)
-export PORT=$port
+# sleep 1 # Wait for the port to be correctly assigned, otherwise it will sometimes get strange value in $port
 
-# Assume that server sets the port according to the environment variable 'PORT'.
-/your/model/server/call & # CHANGE ME!
+echo "$port" > "$load_balancer_dir/ports/$HQ_JOB_ID-2.txt"
 
-load_balancer_dir="/load/balancer/directory" # CHANGE ME!
+export PORT=$port && ./server & # Assume that server sets the port according to the environment variable 'PORT'.
 
 
 host=$(hostname -I | awk '{print $1}')
 
-echo "Waiting for model server to respond at $host:$port..."
+# Wait for model server to start
 while ! curl -s "http://$host:$port/Info" > /dev/null; do
     sleep 1
 done
-echo "Model server responded"
 
 # Write server URL to file identified by HQ job ID.
 mkdir -p "$load_balancer_dir/urls"
