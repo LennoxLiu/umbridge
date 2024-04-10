@@ -14,6 +14,7 @@ run:
 	rm -f logs/*
 
 	export HQ_SUBMIT_DELAY_MS=1000 && \
+	PORT?=4242; \
 	while nc -z localhost $$PORT; do \
 		read -p "Port $$PORT is already in use. Please enter a different port: " NEW_PORT; \
 		PORT=$${NEW_PORT:-$$PORT}; \
