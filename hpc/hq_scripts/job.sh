@@ -42,6 +42,7 @@ export PORT=$port
 while fuser -k -n tcp $port
 do
     nc -l $port  &>/dev/null  &
+    sleep 1
 done
 
 [ ! $(nc -l $port  &>/dev/null  &) ] && echo "Port $port is not killed"
