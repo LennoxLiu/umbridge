@@ -10,5 +10,5 @@ hq alloc add slurm --time-limit 10m \
                    --workers-per-alloc 1 \
                    --max-worker-count 5 \
                    --cpus=1 \
-                   -- -p "devel" # Add any neccessary SLURM arguments
+                   -- -p "devel" --account=bw22J001 # Add any neccessary SLURM arguments
 # Any parameters after -- will be passed directly to sbatch (e.g. credentials, partition, mem, etc.)
