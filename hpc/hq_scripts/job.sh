@@ -21,7 +21,7 @@ while sof -Pi :$port -sTCP:LISTEN -t >/dev/null; do
     # If the port is in use, generate a new port number
     port=$(shuf -i $MIN_PORT-$MAX_PORT -n 1)
 
-    try_count=$((try_count+1));
+    try_count=$((try_count+1))
 done;
 echo "Selected port $port after $try_count tries"
 
