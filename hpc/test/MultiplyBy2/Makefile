@@ -9,15 +9,13 @@ build-lb:
 	g++ -O3 -Wno-unused-result -std=c++17 $(load-balancer-files) -o ../../load-balancer -pthread
 
 run:
-	- rm -f retry-job_id.txt
-	- mkdir -p logs
-	- rm -f logs/*
+	rm -f retry-job_id.txt
+	mkdir -p logs
+	rm -f logs/*
 
-	-	ifndef PORT
-			PORT=4242
-		endif
-
-	- export HQ_SUBMIT_DELAY_MS=500 && \
+	export HQ_SUBMIT_DELAY_MS=500
+	PORT ?= 4242
+	
 	while nc -z localhost $$PORT; do \
 		read -p "Port $$PORT is already in use. Please enter a different port: " NEW_PORT; \
 		PORT=$${NEW_PORT:-$$PORT}; \
