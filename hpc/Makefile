@@ -11,4 +11,5 @@ pull-l2sea:
 run:
 	mkdir -p logs
 	rm -f logs/*
+	export HQ_SUBMIT_DELAY_MS=200 \
 	./load-balancer
