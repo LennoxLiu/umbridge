@@ -9,6 +9,6 @@ pull-l2sea:
 	singularity pull docker://linusseelinger/model-l2-sea-singularity
 
 run:
-	mkdir -p hq_logs
-	rm -f hq_logs/*
+	mkdir -p logs
+	rm -f logs/*
 	./load-balancer
