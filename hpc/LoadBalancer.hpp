@@ -65,26 +65,6 @@ std::string readUrl(const std::string &filename)
     return url;
 }
 
-// Logger class to redirect cout to a file
-class Logger {
-public:
-    Logger(const std::string& filename) {
-        file = std::make_unique<std::ofstream>(filename); // Assign the file pointer with the filename
-        oldbuf = std::cout.rdbuf(); // Declare the oldbuf variable and assign it the value of std::cout.rdbuf()
-        std::cout.rdbuf(file->rdbuf());
-    }
-
-    ~Logger() {
-        std::cout.rdbuf(oldbuf); // Use the oldbuf variable
-        file->close(); // Close the file
-    }
-
-    private:
-        std::streambuf* oldbuf; // Declare the oldbuf variable
-        std::unique_ptr<std::ofstream> file; // Declare the file variable
-
-};
-
 std::mutex job_submission_mutex;
 int hq_submit_delay_ms = 0;
 
@@ -105,8 +85,6 @@ public:
         {
             client_ptr = std::make_unique<umbridge::HTTPModel>(server_url, model_name);
         }
-
-        logger = std::make_unique<Logger>("./logs/LB-"+ job_id +".txt");
     }
 
     ~HyperQueueJob()
@@ -122,8 +100,6 @@ public:
     std::unique_ptr<umbridge::HTTPModel> client_ptr;
 
 private:
-    std::unique_ptr<Logger> logger;
-
     std::string submitHQJob(const std::string &model_name, bool force_default_submission_script=false)
     {
         // Add optional delay to job submissions to prevent issues in some cases.
