@@ -14,7 +14,10 @@ run:
 	rm -f logs/*
 
 	export HQ_SUBMIT_DELAY_MS=500
-	$$PORT=4242
+
+	if printenv PORT > /dev/null \
+		export PORT=4242\
+	fi
 
 	while nc -z localhost $$PORT; do \
 		read -p "Port $$PORT is already in use. Please enter a different port: " NEW_PORT; \
