@@ -9,37 +9,29 @@
 # Launch model server, send back server URL
 # and wait to ensure that HQ won't schedule any more jobs to this allocation.
 
-function get_avaliable_port {
-    # Define the range of ports to select from
-    MIN_PORT=1024
-    MAX_PORT=65535
-    host=$(hostname -I | awk '{print $1}')
 
-    # Generate a random port number
+# Define the range of ports to select from
+MIN_PORT=1024
+MAX_PORT=65535
+host=$(hostname -I | awk '{print $1}')
+# Generate a random port number
+port=$(shuf -i $MIN_PORT-$MAX_PORT -n 1)
+# Check if the port is in use
+try_count=0
+while nc $host $port ; do
+    # If the port is in use, generate a new port number
     port=$(shuf -i $MIN_PORT-$MAX_PORT -n 1)
 
-    # Check if the port is in use
-    try_count=0
-    while nc $host $port ; do
-        # If the port is in use, generate a new port number
-		port=$(shuf -i $MIN_PORT-$MAX_PORT -n 1)
-
-        try_count=$((try_count+1))
-	done;
-
-    echo $port
-    echo "Selected port $port after $try_count tries"
-}
-
-port=$(get_avaliable_port)
-export PORT=$port
+    try_count=$((try_count+1))
+done;
+echo "Selected port $port after $try_count tries"
 
 echo "Starting server on port $port"
+export PORT=$port
 # Assume that server sets the port according to the environment variable 'PORT'.
 ./test/MultiplyBy2/server & # CHANGE ME!
 
 load_balancer_dir="./" # CHANGE ME!
-
 
 host=$(hostname -I | awk '{print $1}')
 
