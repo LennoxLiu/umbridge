@@ -27,10 +27,9 @@ function get_avaliable_port {
 }
 
 port=$(get_avaliable_port)
-export PORT=$port
 
 # Assume that server sets the port according to the environment variable 'PORT'.
-singularity run --writable-tmpfs model-l2-sea-singularity_latest.sif & # CHANGE ME!
+export PORT=$port && singularity run --writable-tmpfs model-l2-sea-singularity_latest.sif & # CHANGE ME!
 
 load_balancer_dir="./" # CHANGE ME!
 
