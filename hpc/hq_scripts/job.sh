@@ -18,7 +18,7 @@ host=$(hostname -I | awk '{print $1}')
 port=$(shuf -i $MIN_PORT-$MAX_PORT -n 1)
 # Check if the port is in use
 try_count=0
-while nc -z $host $port ; do
+while nc -z 0.0.0.0 $port ; do
     # If the port is in use, generate a new port number
     port=$(shuf -i $MIN_PORT-$MAX_PORT -n 1)
 
