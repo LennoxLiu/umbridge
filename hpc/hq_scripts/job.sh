@@ -13,24 +13,27 @@ function get_avaliable_port {
     # Define the range of ports to select from
     MIN_PORT=1024
     MAX_PORT=65535
+    host=$(hostname -I | awk '{print $1}')
 
     # Generate a random port number
     port=$(shuf -i $MIN_PORT-$MAX_PORT -n 1)
 
     # Check if the port is in use
-    while nc -z localhost $port ; do
+    while nc -z $host $port ; do
         # If the port is in use, generate a new port number
-		port=$(shuf -i $MIN_PORT-$MAX_PORT -n 1) 
+		port=$(shuf -i $MIN_PORT-$MAX_PORT -n 1)
+        
 	done;
 
     echo $port
 }
 
 port=$(get_avaliable_port)
+export PORT=$port
 
 echo "Starting server on port $port"
 # Assume that server sets the port according to the environment variable 'PORT'.
-export PORT=$port && ./test/MultiplyBy2/server & # CHANGE ME!
+./test/MultiplyBy2/server & # CHANGE ME!
 
 load_balancer_dir="./" # CHANGE ME!
 
