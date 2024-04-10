@@ -27,8 +27,8 @@ function get_avaliable_port {
         try_count=$((try_count+1))
 	done;
 
-    echo "Selected port $port after $try_count tries"
     echo $port
+    echo "Selected port $port after $try_count tries"
 }
 
 port=$(get_avaliable_port)
