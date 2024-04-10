@@ -3,8 +3,8 @@
 #HQ --cpus=1
 #HQ --time-request=1m
 #HQ --time-limit=2m
-#HQ --stdout %{CWD}/test/MultiplyBy2/logs/%{JOB_ID}-job.out
-#HQ --stderr %{CWD}/test/MultiplyBy2/logs/%{JOB_ID}-job.err
+#HQ --stdout %{CWD}/test/MultiplyBy2/logs/job-%{JOB_ID}.out
+#HQ --stderr %{CWD}/test/MultiplyBy2/logs/job-%{JOB_ID}.err
 
 # Launch model server, send back server URL
 # and wait to ensure that HQ won't schedule any more jobs to this allocation.
