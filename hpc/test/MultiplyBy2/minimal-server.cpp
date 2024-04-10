@@ -110,9 +110,10 @@ int main(int argc, char *argv[])
         if (isPortInUse(port))
         {
             std::cerr << "Port " << port << " is already in use. Exiting." << std::endl;
+            
+            exit(-1);
         }
 
-        exit(-1);
     }
 
     char const *delay_cstr = std::getenv("TEST_DELAY");
