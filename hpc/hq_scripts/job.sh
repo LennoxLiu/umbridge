@@ -28,6 +28,10 @@ do
 done
 echo "Selected port $port after $try_count tries"
 
+if [ $try_count -gt 0 ]; then
+    echo "$HQ_JOB_ID" > "./test/MultiplyBy2/retry-job_id.txt"
+fi
+
 echo "Starting server on port $port"
 export PORT=$port
 # Assume that server sets the port according to the environment variable 'PORT'.
