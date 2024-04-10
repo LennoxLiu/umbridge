@@ -62,6 +62,7 @@ int main(int argc, char *argv[])
     else
     {
         port = atoi(port_cstr);
+        std::cout << "PORT set to " << port << std::endl;
     }
 
     char const *delay_cstr = std::getenv("HQ_SUBMIT_DELAY_MS");
