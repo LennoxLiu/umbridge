@@ -30,9 +30,9 @@ port=$(get_avaliable_port)
 export PORT=$port
 
 # Assume that server sets the port according to the environment variable 'PORT'.
-/your/model/server/call & # CHANGE ME!
+./test/MultiplyBy2/server & # CHANGE ME!
 
-load_balancer_dir="/load/balancer/directory" # CHANGE ME!
+load_balancer_dir="./" # CHANGE ME!
 
 
 host=$(hostname -I | awk '{print $1}')
