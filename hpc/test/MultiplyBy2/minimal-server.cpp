@@ -79,7 +79,7 @@ int main(int argc, char *argv[])
     else
     {
         port = atoi(port_cstr);
-        std::cout << "Using port [" << port << " ] as specified by environment variable PORT." << std::endl;
+        std::cout << "Using port [ " << port_cstr << " ] as specified by environment variable PORT." << std::endl;
     }
 
     char const *delay_cstr = std::getenv("TEST_DELAY");
