@@ -22,7 +22,7 @@ while lsof -Pi :$port -sTCP:LISTEN -t ; do
     port=$(shuf -i $MIN_PORT-$MAX_PORT -n 1)
 
     try_count=$((try_count+1))
-done;
+done
 echo "Selected port $port after $try_count tries"
 
 echo "Starting server on port $port"
