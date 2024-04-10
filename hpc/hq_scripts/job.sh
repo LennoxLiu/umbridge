@@ -18,11 +18,14 @@ port=$(shuf -i $MIN_PORT-$MAX_PORT -n 1)
 # Check if the port is in use
 try_count=0
 echo "$(lsof -Pi :$port -sTCP:LISTEN -t )"
-while [ -n  "$(lsof -Pi :$port -sTCP:LISTEN -t )" ]
+while [ -n  "$(lsof -Pi :$port -sTCP:LISTEN -t )" ] || ! nc -l $port &>/dev/null &
 do
     echo "Port $port is in use, trying another port"
     # If the port is in use, generate a new port number
     port=$(shuf -i $MIN_PORT-$MAX_PORT -n 1)
+
+    # Hold the port
+    # nc -l $port &z
 
     try_count=$((try_count+1))
 done
@@ -35,7 +38,8 @@ fi
 echo "Starting server on port $port"
 export PORT=$port
 # Assume that server sets the port according to the environment variable 'PORT'.
-./test/MultiplyBy2/server & # CHANGE ME!
+# Release the port before starting the server to avoid conflicts.
+fuser -k $port/tcp && ./test/MultiplyBy2/server & # CHANGE ME!
 
 load_balancer_dir="./" # CHANGE ME!
 
