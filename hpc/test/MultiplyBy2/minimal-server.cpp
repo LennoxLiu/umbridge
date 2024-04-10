@@ -24,7 +24,6 @@ bool isPortInUse(int port) {
     serverAddress.sin_port = htons(port);
 
     if (bind(sockfd, (struct sockaddr*)&serverAddress, sizeof(serverAddress)) < 0) {
-        std::cerr << "Port " << port << " is already in use." << std::endl;
         close(sockfd);
         return true;
     }
@@ -110,8 +109,10 @@ int main(int argc, char *argv[])
         std::cout << "Using port [ " << port_cstr << " ] as specified by environment variable PORT." << std::endl;
         if (isPortInUse(port))
         {
-            std::cerr << "Port " << port << " is already in use." << std::endl;
-        } 
+            std::cerr << "Port " << port << " is already in use. Exiting." << std::endl;
+        }
+
+        exit(-1);
     }
 
     char const *delay_cstr = std::getenv("TEST_DELAY");
