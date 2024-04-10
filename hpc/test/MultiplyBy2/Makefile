@@ -16,7 +16,7 @@ run:
 	export HQ_SUBMIT_DELAY_MS=500
 
 	if printenv PORT > /dev/null \
-		export PORT=4242\
+		export PORT=4242 \
 	fi
 
 	while nc -z localhost $$PORT; do \
