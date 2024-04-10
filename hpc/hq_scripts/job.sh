@@ -4,7 +4,7 @@
 #HQ --time-request=1m
 #HQ --time-limit=2m
 #HQ --stdout %{CWD}/logs/job-%{JOB_ID}.out
-#HQ --stderr %{CWD}/logs/job-%{JOB_ID}.err
+#HQ --stderr %{CWD}/logs/job-%{JOB_ID}.out
 
 # Launch model server, send back server URL
 # and wait to ensure that HQ won't schedule any more jobs to this allocation.
@@ -27,9 +27,10 @@ function get_avaliable_port {
 }
 
 port=$(get_avaliable_port)
+export PORT=$port
 
 # Assume that server sets the port according to the environment variable 'PORT'.
-export PORT=$port && singularity run --writable-tmpfs model-l2-sea-singularity_latest.sif & # CHANGE ME!
+singularity run --writable-tmpfs model-l2-sea-singularity_latest.sif &
 
 load_balancer_dir="./" # CHANGE ME!
 
