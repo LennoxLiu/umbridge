@@ -18,14 +18,14 @@ port=$(shuf -i $MIN_PORT-$MAX_PORT -n 1)
 # Check if the port is in use
 try_count=0
 echo "$(lsof -Pi :$port -sTCP:LISTEN -t )"
-while [ -n  "$(lsof -Pi :$port -sTCP:LISTEN -t )" ] || [ $(nc -l $port  &>/dev/null  &) && echo $? ]
+while [ -n  "$(lsof -Pi :$port -sTCP:LISTEN -t )" ] || [ $(nc -l $port  &>/dev/null  &) ]
 do
     echo "Port $port is in use, trying another port"
     # If the port is in use, generate a new port number
     port=$(shuf -i $MIN_PORT-$MAX_PORT -n 1)
 
     # Hold the port
-    # nc -l $port &z
+    # nc -l $port &
 
     try_count=$((try_count+1))
 done
