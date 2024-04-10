@@ -18,10 +18,10 @@ function get_avaliable_port {
     port=$(shuf -i $MIN_PORT-$MAX_PORT -n 1)
 
     # Check if the port is in use
-    while lsof -Pi :$port -sTCP:LISTEN -t >/dev/null; do
-        # If the port is in use, generate a new random port number
-        port=$(shuf -i $MIN_PORT-$MAX_PORT -n 1)
-    done
+    while nc -z localhost $port ; do
+        # If the port is in use, generate a new port number
+		port=$(shuf -i $MIN_PORT-$MAX_PORT -n 1) 
+	done;
 
     echo $port
 }
