@@ -19,7 +19,7 @@ function get_avaliable_port {
     port=$(shuf -i $MIN_PORT-$MAX_PORT -n 1)
 
     # Check if the port is in use
-    while nc -z $host $port ; do
+    while nc $host $port ; do
         # If the port is in use, generate a new port number
 		port=$(shuf -i $MIN_PORT-$MAX_PORT -n 1)
         
