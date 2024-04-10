@@ -13,9 +13,9 @@ run:
 	mkdir -p logs
 	rm -f logs/*
 
-	HQ_SUBMIT_DELAY_MS=500 && \
+	export HQ_SUBMIT_DELAY_MS=500 && \
 	if printenv PORT > /dev/null; then \
-		PORT=4242; \
+		export PORT=4242; \
 	fi && \
 	while nc -z localhost $$PORT; do \
 		read -p "Port $$PORT is already in use. Please enter a different port: " NEW_PORT; \
