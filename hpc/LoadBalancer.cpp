@@ -4,10 +4,8 @@
 #include <chrono>
 #include <thread>
 #include <filesystem>
-
 #include <unistd.h>
 #include <limits.h>
-
 #include "../lib/umbridge.h"
 
 void create_directory_if_not_existing(std::string directory) {
@@ -45,8 +43,8 @@ std::atomic<int32_t> HyperQueueJob::job_count = 0;
 
 int main(int argc, char *argv[])
 {
+    Logger logger("LoadBalancer-log.txt");
     create_directory_if_not_existing("urls");
-    create_directory_if_not_existing("sub-jobs");
     clear_url("urls");
 
     launch_hq_with_alloc_queue();
@@ -87,6 +85,6 @@ int main(int argc, char *argv[])
     std::transform(LB_vector.begin(), LB_vector.end(), LB_ptr_vector.begin(),
                    [](LoadBalancer& obj) { return &obj; });
 
-    std::cout << "Load balancer running port" << port << std::endl;
+    std::cout << "Load balancer running port " << port << std::endl;
     umbridge::serveModels(LB_ptr_vector, "0.0.0.0", port, true, false);
 }
