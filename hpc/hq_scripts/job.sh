@@ -13,12 +13,11 @@
 # Define the range of ports to select from
 MIN_PORT=1024
 MAX_PORT=65535
-host=$(hostname -I | awk '{print $1}')
 # Generate a random port number
 port=$(shuf -i $MIN_PORT-$MAX_PORT -n 1)
 # Check if the port is in use
 try_count=0
-while nc -z $host $port ; do
+while sof -Pi :$port -sTCP:LISTEN -t >/dev/null; do
     # If the port is in use, generate a new port number
     port=$(shuf -i $MIN_PORT-$MAX_PORT -n 1)
 
