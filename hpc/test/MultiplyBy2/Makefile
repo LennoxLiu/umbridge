@@ -13,7 +13,7 @@ run:
 	mkdir -p logs
 	rm -f logs/*
 
-	export HQ_SUBMIT_DELAY_MS=500 && \
+	HQ_SUBMIT_DELAY_MS=500 && \
 	if printenv PORT > /dev/null; then \
 		PORT=4242; \
 	fi && \
