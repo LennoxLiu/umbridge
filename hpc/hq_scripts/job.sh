@@ -17,7 +17,7 @@ MAX_PORT=65535
 port=$(shuf -i $MIN_PORT-$MAX_PORT -n 1)
 # Check if the port is in use
 try_count=0
-while "$(lsof -Pi :4243 -sTCP:LISTEN -t | wc -l)"
+while [ "$(lsof -Pi :$port -sTCP:LISTEN -t | wc -l)" ]
 do
     echo "Port $port is in use, trying another port"
     # If the port is in use, generate a new port number
