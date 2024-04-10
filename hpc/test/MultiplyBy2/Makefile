@@ -14,9 +14,9 @@ run:
 	rm -f logs/*
 
 	if ! printenv PORT > /dev/null; then \
-		echo "PORT environment variable not set. Using default value 4242." \
-		PORT=4242 \
-	fi \
+		echo "PORT environment variable not set. Using default value 4242."; \
+		PORT=4242; \
+	fi && \
 	export HQ_SUBMIT_DELAY_MS=1000 && \
 	while nc -z localhost $$PORT; do \
 		read -p "Port $$PORT is already in use. Please enter a different port: " NEW_PORT; \
