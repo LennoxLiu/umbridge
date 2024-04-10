@@ -9,6 +9,7 @@ build-lb:
 	g++ -O3 -Wno-unused-result -std=c++17 $(load-balancer-files) -o ../../load-balancer -pthread
 
 run:
+	rm -f retry-job_id.txt
 	mkdir -p logs
 	rm -f logs/*
 	export HQ_SUBMIT_DELAY_MS=200 && \
