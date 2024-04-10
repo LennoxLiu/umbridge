@@ -106,7 +106,7 @@ public:
             client_ptr = std::make_unique<umbridge::HTTPModel>(server_url, model_name);
         }
 
-        Logger logger("./logs/LB-"+ job_id +".txt");
+        logger = std::make_unique<Logger>("./logs/LB-"+ job_id +".txt");
     }
 
     ~HyperQueueJob()
@@ -122,6 +122,8 @@ public:
     std::unique_ptr<umbridge::HTTPModel> client_ptr;
 
 private:
+    std::unique_ptr<Logger> logger;
+
     std::string submitHQJob(const std::string &model_name, bool force_default_submission_script=false)
     {
         // Add optional delay to job submissions to prevent issues in some cases.
