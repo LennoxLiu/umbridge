@@ -39,11 +39,6 @@ echo "Starting server on port $port"
 export PORT=$port
 # Assume that server sets the port according to the environment variable 'PORT'.
 # Release the port before starting the server to avoid conflicts.
-while fuser -k -n tcp $port &>/dev/null
-do
-    nc -l $port  &>/dev/null  &
-    sleep 1
-done
 
 [ ! $(nc -l $port  &>/dev/null  &) ] && echo "Port $port is not killed"
 fuser -k -n tcp $port && ./test/MultiplyBy2/server & # CHANGE ME!
