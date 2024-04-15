@@ -51,7 +51,7 @@ host=$(hostname -I | awk '{print $1}')
 
 timeout=60 # timeout in seconds
 echo "Waiting for model server to respond at $host:$port..."
-
+try_respond_count=0
 if timeout $timeout sh -c 'while ! curl -s "http://'"$host"':'"$port"'/Info" > /dev/null ; do :; done'; then
     echo "Model server responded within $timeout seconds"
 else
@@ -59,9 +59,14 @@ else
     
     # restart the job
     $load_balancer_dir/hq_scripts/job.sh
-
+    try_respond_count=$((try_respond_count+1))
     exit 1
 fi
+
+if [ $try_respond_count -gt 0 ]; then
+    echo "$HQ_JOB_ID" > "./test/MultiplyBy2/retry-respond-job_id.txt"
+fi
+
 
 # Write server URL to file identified by HQ job ID.
 mkdir -p "$load_balancer_dir/urls"
