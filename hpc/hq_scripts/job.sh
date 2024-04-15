@@ -50,7 +50,7 @@ host=$(hostname -I | awk '{print $1}')
 timeout=60 # timeout in seconds
 echo "Waiting for model server to respond at $host:$port..."
 
-if timeout $timeout sh -c 'while ! curl -s "http://'"$host"':'"$port"'/Info" > /dev/null; ; done'; then
+if timeout $timeout sh -c 'while ! curl -s "http://'"$host"':'"$port"'/Info" > /dev/null ; do :; done'; then
     echo "Model server responded within $timeout seconds"
 else
     echo "Timeout: Model server did not respond within $timeout seconds"
