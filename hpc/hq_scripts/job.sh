@@ -54,6 +54,10 @@ if timeout $timeout sh -c 'while ! curl -s "http://'"$host"':'"$port"'/Info" > /
     echo "Model server responded within $timeout seconds"
 else
     echo "Timeout: Model server did not respond within $timeout seconds"
+    
+    # restart the job
+    $load_balancer_dir/hq_scripts/job.sh
+
     exit 1
 fi
 
