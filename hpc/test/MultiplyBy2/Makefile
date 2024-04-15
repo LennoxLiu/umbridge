@@ -9,7 +9,7 @@ build-lb:
 	g++ -O3 -Wno-unused-result -std=c++17 $(load-balancer-files) -o ../../load-balancer -pthread
 
 run:
-	rm -f retry-job_id.txt
+	rm -f retry-port-job_id.txt
 	rm -f retry-respond-job_id.txt
 	mkdir -p logs
 	rm -f logs/*

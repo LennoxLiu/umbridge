@@ -28,12 +28,10 @@ do
     # nc -l $port &
 
     try_count=$((try_count+1))
+
+    echo "$HQ_JOB_ID" > "./test/MultiplyBy2/retry-port-job_id.txt"
 done
 echo "Selected port $port after $try_count tries"
-
-if [ $try_count -gt 0 ]; then
-    echo "$HQ_JOB_ID" > "./test/MultiplyBy2/retry-job_id.txt"
-fi
 
 echo "Starting server on port $port"
 export PORT=$port
@@ -56,6 +54,8 @@ if timeout $timeout sh -c 'while ! curl -s "http://'"$host"':'"$port"'/Info" > /
 else
     echo "Timeout: Model server did not respond within $timeout seconds"
     echo "$HQ_JOB_ID" > "./test/MultiplyBy2/retry-respond-job_id.txt"
+    
+    # clear the server here if needed
 
     # restart the job
     $load_balancer_dir/hq_scripts/job.sh
