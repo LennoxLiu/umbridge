@@ -11,14 +11,14 @@
 
 
 # Define the range of ports to select from
-MIN_PORT=1024
+MIN_PORT=49152
 MAX_PORT=65535
 # Generate a random port number
 port=$(shuf -i $MIN_PORT-$MAX_PORT -n 1)
 # Check if the port is in use
 try_count=0
 echo "$(lsof -Pi :$port -sTCP:LISTEN -t )"
-while [ -n  "$(lsof -Pi :$port -sTCP:LISTEN -t )" ] || [ $(nc -l $port  &>/dev/null  &) ]
+while [ -n  "$(lsof -Pi :$port -sTCP:LISTEN -t )" ]
 do
     echo "Port $port is in use, trying another port"
     # If the port is in use, generate a new port number
@@ -40,8 +40,10 @@ export PORT=$port
 # Assume that server sets the port according to the environment variable 'PORT'.
 # Release the port before starting the server to avoid conflicts.
 
-[ ! $(nc -l $port  &>/dev/null  &) ] && echo "Port $port is not killed"
-fuser -k -n tcp $port && ./test/MultiplyBy2/server & # CHANGE ME!
+# [ ! $(nc -l $port  &>/dev/null  &) ] && echo "Port $port is not killed"
+# fuser -k -n tcp $port && 
+
+./test/MultiplyBy2/server & # CHANGE ME!
 
 load_balancer_dir="./" # CHANGE ME!
 
