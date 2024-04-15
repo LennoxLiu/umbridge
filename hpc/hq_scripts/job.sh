@@ -50,7 +50,7 @@ host=$(hostname -I | awk '{print $1}')
 timeout=60 # timeout in seconds
 echo "Waiting for model server to respond at $host:$port..."
 
-function server_is_up() {
+server_is_up() {
     while ! curl -s "http://$host:$port/Info" > /dev/null; do
         sleep 1
     done
