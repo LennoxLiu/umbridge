@@ -10,6 +10,7 @@ build-lb:
 
 run:
 	rm -f retry-job_id.txt
+	rm -f retry-respond-job_id.txt
 	mkdir -p logs
 	rm -f logs/*
 

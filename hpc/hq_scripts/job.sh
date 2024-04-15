@@ -11,7 +11,7 @@
 
 
 # Define the range of ports to select from
-MIN_PORT=49152
+MIN_PORT=1024
 MAX_PORT=65535
 # Generate a random port number
 port=$(shuf -i $MIN_PORT-$MAX_PORT -n 1)
