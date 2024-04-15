@@ -47,11 +47,14 @@ load_balancer_dir="./" # CHANGE ME!
 
 host=$(hostname -I | awk '{print $1}')
 
+timeout=60 # timeout in seconds
 echo "Waiting for model server to respond at $host:$port..."
-while ! curl -s "http://$host:$port/Info" > /dev/null; do
-    sleep 1
-done
-echo "Model server responded"
+if timeout $timeout curl -s "http://$host:$port/Info" > /dev/null; then
+    echo "Model server responded within $timeout seconds"
+else
+    echo "Timeout: Model server did not respond within $timeout seconds"
+    exit 1
+fi
 
 # Write server URL to file identified by HQ job ID.
 mkdir -p "$load_balancer_dir/urls"
