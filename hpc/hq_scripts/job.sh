@@ -11,7 +11,7 @@
 
 
 # Define the range of ports to select from
-MIN_PORT=1024
+MIN_PORT=49152
 MAX_PORT=65535
 # Generate a random port number
 port=$(shuf -i $MIN_PORT-$MAX_PORT -n 1)
@@ -24,9 +24,6 @@ do
     # If the port is in use, generate a new port number
     port=$(shuf -i $MIN_PORT-$MAX_PORT -n 1)
 
-    # Hold the port
-    # nc -l $port &
-
     try_count=$((try_count+1))
 
     echo "$HQ_JOB_ID" > "./test/MultiplyBy2/retry-port-job_id.txt"
@@ -35,12 +32,8 @@ echo "Selected port $port after $try_count tries"
 
 echo "Starting server on port $port"
 export PORT=$port
+
 # Assume that server sets the port according to the environment variable 'PORT'.
-# Release the port before starting the server to avoid conflicts.
-
-# [ ! $(nc -l $port  &>/dev/null  &) ] && echo "Port $port is not killed"
-# fuser -k -n tcp $port && 
-
 ./test/MultiplyBy2/server & # CHANGE ME!
 
 load_balancer_dir="./" # CHANGE ME!
