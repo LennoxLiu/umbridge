@@ -47,7 +47,7 @@ integrand = UMBridgeWrapper(gauss_sobol, l2sea_fixed_design_params, config, para
 print("Got all integrand, starting integration...")
 
 try:
-    qmc_sobol_algorithm = qp.CubQMCSobolG(integrand, abs_tol=1e-1, n_init = 256, n_max = 1024) # n_init must be >= 2**8
+    qmc_sobol_algorithm = qp.CubQMCSobolG(integrand, abs_tol=1e-3, n_init = 256, n_max = 2048) # n_init must be >= 2**8
     solution,data = qmc_sobol_algorithm.integrate()
     print(data)
 except Exception as e:
